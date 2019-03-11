@@ -173,10 +173,65 @@ export interface PackageVersion {
 
 /**
  * Key value pairs of documentation nodes.
- * Based on JSDoc.
+ * Based on TSDoc.
  */
 export interface Docs {
-    [key: string]: string;
+    /**
+     * The full contents of the doc block, without any annotations
+     */
+    comment?: string;
+
+    /**
+     * Summary documentation for an API item.
+     *
+     * The first part of the documentation before hitting a `@remarks` tags, or the first
+     * line of the doc comment block if there is no `@remarks` tag.
+     */
+    summary?: string;
+
+    /**
+     * Detailed information about an API item.
+     *
+     * Either the explicitly tagged `@remarks` section, otherwise everything past the
+     * first paragraph if there is no `@remarks` tag.
+     */
+    remarks?: string;
+
+    /**
+     * The `@privateRemarks` tag starts a block of additional commentary that is not meant
+     * for an external audience.  A documentation tool must omit this content from an
+     * API reference web site.  It should also be omitted when generating a normalized
+     * *.d.ts file intended for third-party developers.
+     */
+    privateRemarks?: string;
+
+    /**
+     * If present, this block indicates that an API item is no longer supported and may be
+     * removed in a future release.  The `@deprecated` tag must be followed by a sentence
+     * describing the recommended alternative.  Deprecation recursively applies to members
+     * of a container.  For example, if a class is deprecated, then so are all of its members.
+     */
+    deprecated?: string;
+
+    /**
+     * The `@returns` block for this doc comment, or undefined if there is not one.
+     */
+    returns?: string;
+
+    /**
+     * The collection of parsed `@param` blocks for this doc comment.
+     */
+    params?: ParamDoc[];
+
+    /**
+     * Whether the API item is beta/experimental quality
+     */
+    experimental?: boolean;
+}
+
+export interface ParamDoc {
+    name: string;
+    description: string;
 }
 
 /**

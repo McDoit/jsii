@@ -6,6 +6,7 @@ import spec = require('jsii-spec');
 import log4js = require('log4js');
 import path = require('path');
 import ts = require('typescript');
+import { parseSymbolDocumentation as parseNodeDocumentation } from './docs';
 import { Diagnostic, Emitter } from './emitter';
 import literate = require('./literate');
 import { ProjectInfo } from './project-info';
@@ -448,7 +449,7 @@ export class Assembler implements Emitter {
                             && jsiiType.initializer.parameters.find(p => !!p.variadic) != null;
                     }
                 }
-                this._visitDocumentation(constructor, jsiiType.initializer);
+                this._visitDocumentation(constructor.getDeclarations(), jsiiType.initializer);
                 this._verifyConsecutiveOptionals(type.symbol.valueDeclaration, jsiiType.initializer.parameters);
             }
 
@@ -474,7 +475,7 @@ export class Assembler implements Emitter {
             jsiiType.initializer = { initializer: true };
         }
 
-        return _sortMembers(this._visitDocumentation(type.symbol, jsiiType));
+        return _sortMembers(this._visitDocumentation(type.symbol.getDeclarations(), jsiiType));
     }
 
     private async _visitEnum(type: ts.Type, namespace: string[]): Promise<spec.EnumType> {
@@ -496,12 +497,12 @@ export class Assembler implements Emitter {
             fqn: `${[this.projectInfo.name, ...namespace].join('.')}.${type.symbol.name}`,
             kind: spec.TypeKind.Enum,
             members: ((type as ts.UnionType).types || [])
-                .map(m => this._visitDocumentation<spec.EnumMember>(m.symbol, { name: m.symbol.name })),
+                .map(m => this._visitDocumentation<spec.EnumMember>(m.symbol.getDeclarations(), { name: m.symbol.name })),
             name: type.symbol.name,
             namespace: namespace.join('.')
         };
 
-        this._visitDocumentation(type.symbol, jsiiType);
+        this._visitDocumentation(type.symbol.getDeclarations(), jsiiType);
 
         return jsiiType;
     }
@@ -509,46 +510,45 @@ export class Assembler implements Emitter {
     /**
      * Register documentations on a ``spec.Documentable`` entry.
      *
-     * @param symbol       the symbol holding the JSDoc information
+     * @param decls       the symbol holding the JSDoc information
      * @param documentable the entity being documented
      *
      * @returns ``documentable``
      */
-    private _visitDocumentation<T extends spec.Documentable>(symbol: ts.Symbol | ts.Signature, documentable: T): T {
-        const comment = ts.displayPartsToString(symbol.getDocumentationComment(this._typeChecker)).trim();
-        if (comment) {
-            if (LOG.isTraceEnabled()) {
-                LOG.trace(`Found documentation comment: ${colors.yellow(comment)}`);
-            }
-            if (documentable.docs) {
-                documentable.docs.comment = comment;
-            } else {
-                documentable.docs = { comment };
-            }
+    private _visitDocumentation<T extends spec.Documentable>(decls: ts.Node[] | undefined, documentable: T): T {
+        if (documentable.docs) {
+            LOG.warn('WARNING overwriting docs for ' + decls);
         }
 
-        for (const tagInfo of symbol.getJsDocTags().filter(tag => tag.text && tag.name !== 'param')) {
-            const tagName = _normalizeTag(tagInfo.name);
-            if (LOG.isTraceEnabled()) {
-                LOG.trace(`Found documentation tag ${colors.magenta(tagInfo.name)}: ${colors.yellow(tagInfo.text!)}`);
-            }
-            if (documentable.docs) {
-                documentable.docs[tagName] = tagInfo.text!;
-            } else {
-                documentable.docs = { [tagName]: tagInfo.text! };
-            }
+        if (decls === undefined || decls.length !== 0) { return documentable; }
+        // Multiple declaration sites may occur if different symbols share the same name. In TypeScript this is used for
+        // type "enhancing". We can mix:
+        // - classes and namespaces; we're treating these as two distinct objects.
+        // - classes and interfaces; we're treating the interfaces as extending the class.
+        // - interfaces and interfaces; same as class+interface.
+        decls = decls.filter(d => d.kind !== ts.SyntaxKind.NamespaceKeyword);
+
+        if (decls.length > 1) {
+            console.log(decls.map(d => d.getSourceFile().fileName + ':' + d.getText()));
+
+            this._diagnostic(
+                decls[1],
+                ts.DiagnosticCategory.Warning,
+                'jsii compiler is not prepared to deal with multiple symbol declaration sites; doc comments may be incorrect.');
+        }
+
+        const result = parseNodeDocumentation(decls[0]);
+
+        documentable.docs = result.docs;
+
+        for (const warning of result.warnings || []) {
+            this._diagnostic(decls[0], ts.DiagnosticCategory.Warning, warning);
+        }
+        for (const error of result.errors || []) {
+            this._diagnostic(decls[0], ts.DiagnosticCategory.Error, error);
         }
 
         return documentable;
-
-        function _normalizeTag(name: string): string {
-            switch (name) {
-            case 'returns':
-                return 'return';
-            default:
-                return name;
-            }
-        }
     }
 
     private async _visitInterface(type: ts.Type, namespace: string[]): Promise<spec.InterfaceType> {
@@ -654,7 +654,7 @@ export class Assembler implements Emitter {
         };
         this._deferUntilTypesAvailable(fqn, jsiiType.interfaces || [], type.symbol.valueDeclaration, checkNoIntersection);
 
-        return _sortMembers(this._visitDocumentation(type.symbol, jsiiType));
+        return _sortMembers(this._visitDocumentation(type.symbol.getDeclarations(), jsiiType));
     }
 
     private async _visitMethod(symbol: ts.Symbol, type: spec.ClassType | spec.InterfaceType) {
@@ -683,7 +683,7 @@ export class Assembler implements Emitter {
 
         this._verifyConsecutiveOptionals(declaration, method.parameters);
 
-        this._visitDocumentation(symbol, method);
+        this._visitDocumentation(symbol.getDeclarations(), method);
 
         // If the last parameter is a datatype, verify that it does not share any field names with
         // other function arguments, so that it can be turned into keyword arguments by jsii frontends
@@ -753,7 +753,7 @@ export class Assembler implements Emitter {
             property.const = true;
         }
 
-        this._visitDocumentation(symbol, property);
+        this._visitDocumentation(symbol.getDeclarations(), property);
 
         type.properties = type.properties || [];
         type.properties.push(property);
@@ -776,7 +776,7 @@ export class Assembler implements Emitter {
             parameter.type.optional = true;
         }
 
-        this._visitDocumentation(paramSymbol, parameter);
+        this._visitDocumentation(paramSymbol.getDeclarations(), parameter);
         return parameter;
     }
 
