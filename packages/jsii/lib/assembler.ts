@@ -520,7 +520,8 @@ export class Assembler implements Emitter {
             LOG.warn('WARNING overwriting docs for ' + decls);
         }
 
-        if (decls === undefined || decls.length !== 0) { return documentable; }
+        if (decls === undefined || decls.length === 0) { return documentable; }
+
         // Multiple declaration sites may occur if different symbols share the same name. In TypeScript this is used for
         // type "enhancing". We can mix:
         // - classes and namespaces; we're treating these as two distinct objects.
@@ -528,25 +529,12 @@ export class Assembler implements Emitter {
         // - interfaces and interfaces; same as class+interface.
         decls = decls.filter(d => d.kind !== ts.SyntaxKind.NamespaceKeyword);
 
-        if (decls.length > 1) {
-            console.log(decls.map(d => d.getSourceFile().fileName + ':' + d.getText()));
-
-            this._diagnostic(
-                decls[1],
-                ts.DiagnosticCategory.Warning,
-                'jsii compiler is not prepared to deal with multiple symbol declaration sites; doc comments may be incorrect.');
-        }
-
+        // Right here we'll just guess that the first declaration site is the most important one.
         const result = parseNodeDocumentation(decls[0]);
 
         documentable.docs = result.docs;
 
-        for (const warning of result.warnings || []) {
-            this._diagnostic(decls[0], ts.DiagnosticCategory.Warning, warning);
-        }
-        for (const error of result.errors || []) {
-            this._diagnostic(decls[0], ts.DiagnosticCategory.Error, error);
-        }
+        this._diagnostics.push(...result.diagnostics || []);
 
         return documentable;
     }

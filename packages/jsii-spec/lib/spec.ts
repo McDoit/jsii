@@ -227,6 +227,16 @@ export interface Docs {
      * Whether the API item is beta/experimental quality
      */
     experimental?: boolean;
+
+    /**
+     * Example showing the usage of this API item
+     */
+    example?: string;
+
+    /**
+     * A `@see` link with more information
+     */
+    seeLink?: string;
 }
 
 export interface ParamDoc {
