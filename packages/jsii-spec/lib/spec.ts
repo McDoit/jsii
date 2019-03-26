@@ -177,11 +177,6 @@ export interface PackageVersion {
  */
 export interface Docs {
     /**
-     * The full contents of the doc block, without any annotations
-     */
-    comment?: string;
-
-    /**
      * Summary documentation for an API item.
      *
      * The first part of the documentation before hitting a `@remarks` tags, or the first
@@ -198,14 +193,6 @@ export interface Docs {
     remarks?: string;
 
     /**
-     * The `@privateRemarks` tag starts a block of additional commentary that is not meant
-     * for an external audience.  A documentation tool must omit this content from an
-     * API reference web site.  It should also be omitted when generating a normalized
-     * *.d.ts file intended for third-party developers.
-     */
-    privateRemarks?: string;
-
-    /**
      * If present, this block indicates that an API item is no longer supported and may be
      * removed in a future release.  The `@deprecated` tag must be followed by a sentence
      * describing the recommended alternative.  Deprecation recursively applies to members
@@ -219,17 +206,15 @@ export interface Docs {
     returns?: string;
 
     /**
-     * The collection of parsed `@param` blocks for this doc comment.
-     */
-    params?: ParamDoc[];
-
-    /**
      * Whether the API item is beta/experimental quality
      */
-    experimental?: boolean;
+    stability?: Stability;
 
     /**
      * Example showing the usage of this API item
+     *
+     * Starts off in running text mode, may switch to code using fenced code
+     * blocks.
      */
     example?: string;
 
@@ -237,11 +222,16 @@ export interface Docs {
      * A `@see` link with more information
      */
     seeLink?: string;
+
+    /**
+     * Description of the default
+     */
+    default?: string;
 }
 
-export interface ParamDoc {
-    name: string;
-    description: string;
+export enum Stability {
+    Experimental = 'experimental',
+    Stable = 'stable',
 }
 
 /**

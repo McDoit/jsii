@@ -16,6 +16,9 @@ export class Docs {
   }
 
   public toString() {
-    return this.docs.comment || '';
+    const ret = new Array<string>();
+    if (this.docs.summary) { ret.push(this.docs.summary); }
+    if (this.docs.remarks) { ret.push('', this.docs.remarks); }
+    return ret.join('\n');
   }
 }

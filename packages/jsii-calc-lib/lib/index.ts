@@ -30,7 +30,7 @@ export interface IDoublable {
 export class Number extends Value implements IDoublable {
     /**
      * Creates a Number object.
-     * @param value The number.
+     * @param value - The number.
      */
     constructor(readonly value: number) {
         super();
@@ -91,7 +91,7 @@ export interface StructWithOnlyOptionals {
 }
 
 /**
- * Check that enums from @scoped packages can be references.
+ * Check that enums from \@scoped packages can be references.
  * See awslabs/jsii#138
  */
 export enum EnumFromScopedModule {
