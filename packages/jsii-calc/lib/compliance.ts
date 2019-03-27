@@ -506,15 +506,15 @@ export interface DerivedStruct extends MyFirstStruct {
     /**
      * An example of a non primitive property.
      */
-    nonPrimitive: DoubleTrouble
-    bool: boolean
-    anotherRequired: Date
-    optionalArray?: string[]
-    optionalAny?: any
+    readonly nonPrimitive: DoubleTrouble
+    readonly bool: boolean
+    readonly anotherRequired: Date
+    readonly optionalArray?: string[]
+    readonly optionalAny?: any
     /**
      * This is optional.
      */
-    anotherOptional?: { [key: string]: Value }
+    readonly anotherOptional?: { [key: string]: Value }
 }
 
 export class GiveMeStructs {
@@ -547,17 +547,17 @@ export class GiveMeStructs {
     }
 }
 
-export interface InterfaceWithProperties {
+export interface IInterfaceWithProperties {
     readonly readOnlyString: string;
     readWriteString: string;
 }
 
-export interface InterfaceWithPropertiesExtension extends InterfaceWithProperties {
+export interface IInterfaceWithPropertiesExtension extends IInterfaceWithProperties {
     foo: number;
 }
 
 export class UsesInterfaceWithProperties {
-    constructor(public readonly obj: InterfaceWithProperties) {
+    constructor(public readonly obj: IInterfaceWithProperties) {
 
     }
 
@@ -570,7 +570,7 @@ export class UsesInterfaceWithProperties {
         return this.obj.readWriteString;
     }
 
-    public readStringAndNumber(ext: InterfaceWithPropertiesExtension) {
+    public readStringAndNumber(ext: IInterfaceWithPropertiesExtension) {
         return `base=${ext.readOnlyString} child=${ext.foo} keys=[${Object.keys(ext).join(',')}]`;
     }
 }
@@ -856,8 +856,75 @@ export class JavaReservedWords {
     public while = 'hello';
 }
 
+export class PythonReservedWords {
+
+    public and() {}
+
+    public as() {}
+
+    public assert() {}
+
+    public async() {}
+
+    public await() {}
+
+    public break() {}
+
+    public class() {}
+
+    public continue() {}
+
+    public def() {}
+
+    public del() {}
+
+    public elif() {}
+
+    public else() {}
+
+    public except() {}
+
+    public finally() {}
+
+    public for() {}
+
+    public from() {}
+
+    public global() {}
+
+    public if() {}
+
+    public import() {}
+
+    public in() {}
+
+    public is() {}
+
+    public lambda() {}
+
+    public nonlocal() {}
+
+    public not() {}
+
+    public or() {}
+
+    public pass() {}
+
+    public raise() {}
+
+    public return() {}
+
+    public try() {}
+
+    public while() {}
+
+    public with() {}
+
+    public yield() {}
+}
+
 export interface UnionProperties {
-    foo?: string | number;
+    readonly foo?: string | number;
     readonly bar: AllTypes | string | number;
 }
 
@@ -919,7 +986,7 @@ export class UseCalcBase {
 }
 
 export interface ImplictBaseOfBase extends base.BaseProps {
-    goo: Date;
+    readonly goo: Date;
 }
 
 /**
@@ -945,7 +1012,7 @@ export namespace InterfaceInNamespaceOnlyInterface {
 
     // it's a special case when only an interface is exported from a namespace
     export interface Hello {
-        foo: number
+        readonly foo: number
     }
 
 }
@@ -957,7 +1024,7 @@ export namespace InterfaceInNamespaceIncludesClasses {
     }
 
     export interface Hello {
-        foo: number
+        readonly foo: number
     }
 }
 
@@ -1020,12 +1087,12 @@ export class AbstractClassReturner {
     }
 }
 
-export interface MutableObjectLiteral {
+export interface IMutableObjectLiteral {
     value: string;
 }
 
 export class ClassWithMutableObjectLiteralProperty {
-    public mutableObject: MutableObjectLiteral = { value: 'default' };
+    public mutableObject: IMutableObjectLiteral = { value: 'default' };
 }
 
 export class DoNotOverridePrivates {
@@ -1051,7 +1118,7 @@ export class DoNotOverridePrivates {
 /**
  * Class that implements interface properties automatically, but using a private constructor
  */
-export class ClassWithPrivateConstructorAndAutomaticProperties implements InterfaceWithProperties {
+export class ClassWithPrivateConstructorAndAutomaticProperties implements IInterfaceWithProperties {
     public static create(readOnlyString: string, readWriteString: string) {
         return new ClassWithPrivateConstructorAndAutomaticProperties(readOnlyString, readWriteString);
     }
@@ -1124,8 +1191,8 @@ export class NullShouldBeTreatedAsUndefined {
 }
 
 export interface NullShouldBeTreatedAsUndefinedData {
-    thisShouldBeUndefined?: any;
-    arrayWithThreeElementsAndUndefinedAsSecondArgument: any[];
+    readonly thisShouldBeUndefined?: any;
+    readonly arrayWithThreeElementsAndUndefinedAsSecondArgument: any[];
 }
 
 export class DontComplainAboutVariadicAfterOptional {
@@ -1151,7 +1218,7 @@ export interface LoadBalancedFargateServiceProps {
      *
      * @default 256
      */
-    cpu?: string;
+    readonly cpu?: string;
 
     /**
      * The amount (in MiB) of memory used by the task.
@@ -1173,28 +1240,28 @@ export interface LoadBalancedFargateServiceProps {
      *
      * @default 512
      */
-    memoryMiB?: string;
+    readonly memoryMiB?: string;
 
     /**
      * The container port of the application load balancer attached to your Fargate service. Corresponds to container port mapping.
      *
      * @default 80
      */
-    containerPort?: number;
+    readonly containerPort?: number;
 
     /**
      * Determines whether the Application Load Balancer will be internet-facing
      *
      * @default true
      */
-    publicLoadBalancer?: boolean;
+    readonly publicLoadBalancer?: boolean;
 
     /**
      * Determines whether your Fargate Service will be assigned a public IP address.
      *
      * @default false
      */
-    publicTasks?: boolean;
+    readonly publicTasks?: boolean;
 }
 
 /**
@@ -1266,5 +1333,183 @@ export class Constructors {
     }
     public static makeInterface(): IPublicInterface {
         return new PrivateClass();
+    }
+}
+
+// fixture to verify that null/undefined values in object hashes are treated
+// as "unset". see awslabs/aws-cdk#965.
+export interface EraseUndefinedHashValuesOptions {
+    readonly option1?: string;
+    readonly option2?: string;
+}
+
+export class EraseUndefinedHashValues {
+    /**
+     * Returns `true` if `key` is defined in `opts`. Used to check that undefined/null hash values
+     * are being erased when sending values from native code to JS.
+     */
+    public static doesKeyExist(opts: EraseUndefinedHashValuesOptions, key: string): boolean {
+        return key in opts;
+    }
+
+    /**
+     * We expect "prop2" to be erased
+     */
+    public static prop2IsUndefined(): any {
+        return {
+            prop1: 'value1',
+            prop2: undefined
+        };
+    }
+
+    /**
+     * We expect "prop1" to be erased
+     */
+    public static prop1IsNull(): any {
+        return {
+            prop1: null,
+            prop2: 'value2'
+        };
+    }
+}
+
+// internal can be used to represent members that can only be accessed from the current module
+export class StripInternal {
+    public youSeeMe = 'hello';
+
+    /**
+     * This is an internal thing
+     * @internal
+     */
+    public _youDontSeeMeAlthoughIamPublic = 'world'
+}
+
+/**
+ * @internal
+ */
+export class InternalClass {
+    public iAmNotHere = 'yes';
+}
+
+/**
+ * @internal
+ */
+export interface IInternalInterface {
+    prop: string;
+}
+
+/**
+ * @internal
+ */
+export enum InternalEnum {
+    Member1 = 12,
+    Member2 = 23
+}
+
+export interface IInterfaceWithInternal {
+    visible(): void;
+
+    /** @internal */
+    _hidden(): void;
+}
+
+export class ImplementsInterfaceWithInternal implements IInterfaceWithInternal {
+    visible() { }
+
+    /** @internal */
+    _hidden() { }
+
+    /** @internal */
+    _alsoHidden() { }
+
+    /** @internal */
+    _propertiesToo?: string;
+}
+
+export class ImplementsInterfaceWithInternalSubclass extends ImplementsInterfaceWithInternal {
+    /** @internal */
+    _alsoHidden() { }
+
+    /**
+     * @internal
+     */
+    public _propertiesToo?: string;
+}
+
+//
+// hidden interface erasure
+// if a class/interface uses a hidden (private/internal) interface as base, the base will
+// be erased from the API
+//
+
+interface IPrivateInterface {
+    private: string;
+}
+
+export interface ExtendsInternalInterface extends IInternalInterface {
+    readonly boom: boolean
+}
+
+export class ImplementInternalInterface implements IInternalInterface {
+    prop = 'implement me'
+}
+
+export class ImplementsPrivateInterface implements IPrivateInterface {
+    public private = 'i came from private into the light'
+}
+
+export interface ExtendsPrivateInterface extends IPrivateInterface {
+    readonly moreThings: string[];
+}
+
+//
+// hidden (private/internal) base interface erasure will copy non-hidden bases from
+// hidden to consuming type.
+//
+
+export interface IAnotherPublicInterface {
+    a: string;
+
+}
+
+/** @internal */
+export interface IAnotherInternalInterface extends IAnotherPublicInterface {
+    b: string;
+}
+
+export interface INonInternalInterface extends IAnotherInternalInterface {
+    c: string;
+}
+
+/** @internal */
+export interface IInternalInterfaceThatExtendsTheNonInternalOne extends INonInternalInterface {
+    d: string;
+}
+
+interface IPrivateInterfaceThatExtendsTheNonInternalOne extends INonInternalInterface {
+    e: string;
+}
+
+export class ClassThatImplementsTheInternalInterface implements IInternalInterfaceThatExtendsTheNonInternalOne, INonInternalInterface {
+    public a = 'a';
+    public b = 'b';
+    public c = 'c';
+    public d = 'd';
+}
+
+export class ClassThatImplementsThePrivateInterface implements IPrivateInterfaceThatExtendsTheNonInternalOne {
+    public a = 'a';
+    public b = 'b';
+    public c = 'c';
+    public e = 'e';
+}
+
+export class ConsumersOfThisCrazyTypeSystem {
+    public consumeAnotherPublicInterface(obj: IAnotherPublicInterface) {
+        return obj.a;
+    }
+
+    public consumeNonInternalInterface(obj: INonInternalInterface): any {
+        return { a: obj.a, b: obj.b, c: obj.c };
     }
 }

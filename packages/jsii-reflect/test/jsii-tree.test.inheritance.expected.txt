@@ -17,10 +17,15 @@ assemblies
  │   │ └── interfaces: IFriendly
  │   ├─┬ class Calculator
  │   │ └── base: CompositeOperation
+ │   ├─┬ class ClassThatImplementsTheInternalInterface
+ │   │ └── interfaces: INonInternalInterface
+ │   ├─┬ class ClassThatImplementsThePrivateInterface
+ │   │ └── interfaces: INonInternalInterface
  │   ├── class ClassWithMutableObjectLiteralProperty
  │   ├─┬ class ClassWithPrivateConstructorAndAutomaticProperties
- │   │ └── interfaces: InterfaceWithProperties
+ │   │ └── interfaces: IInterfaceWithProperties
  │   ├── class Constructors
+ │   ├── class ConsumersOfThisCrazyTypeSystem
  │   ├── class DefaultedConstructorArgument
  │   ├── class Base
  │   ├─┬ class Derived
@@ -30,9 +35,16 @@ assemblies
  │   ├── class DontComplainAboutVariadicAfterOptional
  │   ├─┬ class DoubleTrouble
  │   │ └── interfaces: IFriendlyRandomGenerator
+ │   ├── class EraseUndefinedHashValues
  │   ├── class ExportedBaseClass
  │   ├── class GiveMeStructs
  │   ├── class GreetingAugmenter
+ │   ├── class ImplementInternalInterface
+ │   ├─┬ class ImplementsInterfaceWithInternal
+ │   │ └── interfaces: IInterfaceWithInternal
+ │   ├─┬ class ImplementsInterfaceWithInternalSubclass
+ │   │ └── base: ImplementsInterfaceWithInternal
+ │   ├── class ImplementsPrivateInterface
  │   ├─┬ class InbetweenClass
  │   │ └── base: PublicClass
  │   ├── class Foo
@@ -57,10 +69,12 @@ assemblies
  │   ├─┬ class Power
  │   │ └── base: CompositeOperation
  │   ├── class PublicClass
+ │   ├── class PythonReservedWords
  │   ├── class ReferenceEnumFromScopedPackage
  │   ├── class ReturnsPrivateImplementationOfInterface
  │   ├── class RuntimeTypeChecking
  │   ├── class Statics
+ │   ├── class StripInternal
  │   ├─┬ class Sum
  │   │ └── base: CompositeOperation
  │   ├── class SyncVirtualMethods
@@ -78,6 +92,10 @@ assemblies
  │   ├─┬ interface DerivedStruct
  │   │ └─┬ interfaces
  │   │   └── MyFirstStruct
+ │   ├── interface EraseUndefinedHashValuesOptions
+ │   ├── interface ExtendsInternalInterface
+ │   ├── interface ExtendsPrivateInterface
+ │   ├── interface IAnotherPublicInterface
  │   ├─┬ interface IFriendlier
  │   │ └─┬ interfaces
  │   │   └── IFriendly
@@ -88,8 +106,17 @@ assemblies
  │   ├─┬ interface IInterfaceThatShouldNotBeADataType
  │   │ └─┬ interfaces
  │   │   └── IInterfaceWithMethods
+ │   ├── interface IInterfaceWithInternal
  │   ├── interface IInterfaceWithMethods
  │   ├── interface IInterfaceWithOptionalMethodArguments
+ │   ├── interface IInterfaceWithProperties
+ │   ├─┬ interface IInterfaceWithPropertiesExtension
+ │   │ └─┬ interfaces
+ │   │   └── IInterfaceWithProperties
+ │   ├── interface IMutableObjectLiteral
+ │   ├─┬ interface INonInternalInterface
+ │   │ └─┬ interfaces
+ │   │   └── IAnotherPublicInterface
  │   ├── interface IPrivatelyImplemented
  │   ├── interface IPublicInterface
  │   ├── interface IRandomNumberGenerator
@@ -100,12 +127,7 @@ assemblies
  │   ├── interface InterfaceImplementedByAbstractClass
  │   ├── interface Hello
  │   ├── interface Hello
- │   ├── interface InterfaceWithProperties
- │   ├─┬ interface InterfaceWithPropertiesExtension
- │   │ └─┬ interfaces
- │   │   └── InterfaceWithProperties
  │   ├── interface LoadBalancedFargateServiceProps
- │   ├── interface MutableObjectLiteral
  │   ├── interface NullShouldBeTreatedAsUndefinedData
  │   ├── interface UnionProperties
  │   ├── enum AllTypesEnum

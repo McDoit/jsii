@@ -86,6 +86,20 @@ assemblies
  │   │   ├── curr property
  │   │   ├── maxValue property
  │   │   └── unionProperty property
+ │   ├─┬ class ClassThatImplementsTheInternalInterface
+ │   │ └─┬ members
+ │   │   ├── <initializer>() method
+ │   │   ├── a property
+ │   │   ├── b property
+ │   │   ├── c property
+ │   │   └── d property
+ │   ├─┬ class ClassThatImplementsThePrivateInterface
+ │   │ └─┬ members
+ │   │   ├── <initializer>() method
+ │   │   ├── a property
+ │   │   ├── b property
+ │   │   ├── c property
+ │   │   └── e property
  │   ├─┬ class ClassWithMutableObjectLiteralProperty
  │   │ └─┬ members
  │   │   ├── <initializer>() method
@@ -100,6 +114,11 @@ assemblies
  │   │   ├── <initializer>() method
  │   │   ├── makeClass() method
  │   │   └── makeInterface() method
+ │   ├─┬ class ConsumersOfThisCrazyTypeSystem
+ │   │ └─┬ members
+ │   │   ├── <initializer>() method
+ │   │   ├── consumeAnotherPublicInterface(obj) method
+ │   │   └── consumeNonInternalInterface(obj) method
  │   ├─┬ class DefaultedConstructorArgument
  │   │ └─┬ members
  │   │   ├── <initializer>(arg1,arg2,arg3) method
@@ -132,6 +151,12 @@ assemblies
  │   │   ├── <initializer>() method
  │   │   ├── hello() method
  │   │   └── next() method
+ │   ├─┬ class EraseUndefinedHashValues
+ │   │ └─┬ members
+ │   │   ├── <initializer>() method
+ │   │   ├── doesKeyExist(opts,key) method
+ │   │   ├── prop1IsNull() method
+ │   │   └── prop2IsUndefined() method
  │   ├─┬ class ExportedBaseClass
  │   │ └─┬ members
  │   │   ├── <initializer>(success) method
@@ -147,6 +172,21 @@ assemblies
  │   │ └─┬ members
  │   │   ├── <initializer>() method
  │   │   └── betterGreeting(friendly) method
+ │   ├─┬ class ImplementInternalInterface
+ │   │ └─┬ members
+ │   │   ├── <initializer>() method
+ │   │   └── prop property
+ │   ├─┬ class ImplementsInterfaceWithInternal
+ │   │ └─┬ members
+ │   │   ├── <initializer>() method
+ │   │   └── visible() method
+ │   ├─┬ class ImplementsInterfaceWithInternalSubclass
+ │   │ └─┬ members
+ │   │   └── <initializer>() method
+ │   ├─┬ class ImplementsPrivateInterface
+ │   │ └─┬ members
+ │   │   ├── <initializer>() method
+ │   │   └── private property
  │   ├─┬ class InbetweenClass
  │   │ └─┬ members
  │   │   └── <initializer>() method
@@ -293,6 +333,41 @@ assemblies
  │   │ └─┬ members
  │   │   ├── <initializer>() method
  │   │   └── hello() method
+ │   ├─┬ class PythonReservedWords
+ │   │ └─┬ members
+ │   │   ├── <initializer>() method
+ │   │   ├── and() method
+ │   │   ├── as() method
+ │   │   ├── assert() method
+ │   │   ├── async() method
+ │   │   ├── await() method
+ │   │   ├── break() method
+ │   │   ├── class() method
+ │   │   ├── continue() method
+ │   │   ├── def() method
+ │   │   ├── del() method
+ │   │   ├── elif() method
+ │   │   ├── else() method
+ │   │   ├── except() method
+ │   │   ├── finally() method
+ │   │   ├── for() method
+ │   │   ├── from() method
+ │   │   ├── global() method
+ │   │   ├── if() method
+ │   │   ├── import() method
+ │   │   ├── in() method
+ │   │   ├── is() method
+ │   │   ├── lambda() method
+ │   │   ├── nonlocal() method
+ │   │   ├── not() method
+ │   │   ├── or() method
+ │   │   ├── pass() method
+ │   │   ├── raise() method
+ │   │   ├── return() method
+ │   │   ├── try() method
+ │   │   ├── while() method
+ │   │   ├── with() method
+ │   │   └── yield() method
  │   ├─┬ class ReferenceEnumFromScopedPackage
  │   │ └─┬ members
  │   │   ├── <initializer>() method
@@ -321,6 +396,10 @@ assemblies
  │   │   ├── instance property
  │   │   ├── nonConstStatic property
  │   │   └── value property
+ │   ├─┬ class StripInternal
+ │   │ └─┬ members
+ │   │   ├── <initializer>() method
+ │   │   └── youSeeMe property
  │   ├─┬ class Sum
  │   │ └─┬ members
  │   │   ├── <initializer>() method
@@ -401,6 +480,19 @@ assemblies
  │   │   ├── anotherOptional property
  │   │   ├── optionalAny property
  │   │   └── optionalArray property
+ │   ├─┬ interface EraseUndefinedHashValuesOptions
+ │   │ └─┬ members
+ │   │   ├── option1 property
+ │   │   └── option2 property
+ │   ├─┬ interface ExtendsInternalInterface
+ │   │ └─┬ members
+ │   │   └── boom property
+ │   ├─┬ interface ExtendsPrivateInterface
+ │   │ └─┬ members
+ │   │   └── moreThings property
+ │   ├─┬ interface IAnotherPublicInterface
+ │   │ └─┬ members
+ │   │   └── a property
  │   ├─┬ interface IFriendlier
  │   │ └─┬ members
  │   │   ├── farewell() method
@@ -410,6 +502,9 @@ assemblies
  │   ├─┬ interface IInterfaceThatShouldNotBeADataType
  │   │ └─┬ members
  │   │   └── otherValue property
+ │   ├─┬ interface IInterfaceWithInternal
+ │   │ └─┬ members
+ │   │   └── visible() method
  │   ├─┬ interface IInterfaceWithMethods
  │   │ └─┬ members
  │   │   ├── doThings() method
@@ -417,6 +512,19 @@ assemblies
  │   ├─┬ interface IInterfaceWithOptionalMethodArguments
  │   │ └─┬ members
  │   │   └── hello(arg1,arg2) method
+ │   ├─┬ interface IInterfaceWithProperties
+ │   │ └─┬ members
+ │   │   ├── readOnlyString property
+ │   │   └── readWriteString property
+ │   ├─┬ interface IInterfaceWithPropertiesExtension
+ │   │ └─┬ members
+ │   │   └── foo property
+ │   ├─┬ interface IMutableObjectLiteral
+ │   │ └─┬ members
+ │   │   └── value property
+ │   ├─┬ interface INonInternalInterface
+ │   │ └─┬ members
+ │   │   └── c property
  │   ├─┬ interface IPrivatelyImplemented
  │   │ └─┬ members
  │   │   └── success property
@@ -442,13 +550,6 @@ assemblies
  │   ├─┬ interface Hello
  │   │ └─┬ members
  │   │   └── foo property
- │   ├─┬ interface InterfaceWithProperties
- │   │ └─┬ members
- │   │   ├── readOnlyString property
- │   │   └── readWriteString property
- │   ├─┬ interface InterfaceWithPropertiesExtension
- │   │ └─┬ members
- │   │   └── foo property
  │   ├─┬ interface LoadBalancedFargateServiceProps
  │   │ └─┬ members
  │   │   ├── containerPort property
@@ -456,9 +557,6 @@ assemblies
  │   │   ├── memoryMiB property
  │   │   ├── publicLoadBalancer property
  │   │   └── publicTasks property
- │   ├─┬ interface MutableObjectLiteral
- │   │ └─┬ members
- │   │   └── value property
  │   ├─┬ interface NullShouldBeTreatedAsUndefinedData
  │   │ └─┬ members
  │   │   ├── arrayWithThreeElementsAndUndefinedAsSecondArgument property

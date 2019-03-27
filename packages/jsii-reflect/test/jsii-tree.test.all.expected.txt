@@ -223,14 +223,40 @@ assemblies
  │   │   │ └── type: primitive:number (optional)
  │   │   └─┬ unionProperty property
  │   │     └── type: class:jsii-calc.Add | class:jsii-calc.Multiply | class:jsii-calc.Power
+ │   ├─┬ class ClassThatImplementsTheInternalInterface
+ │   │ ├── interfaces: INonInternalInterface
+ │   │ └─┬ members
+ │   │   ├─┬ <initializer>() method
+ │   │   │ └── returns: void
+ │   │   ├─┬ a property
+ │   │   │ └── type: primitive:string
+ │   │   ├─┬ b property
+ │   │   │ └── type: primitive:string
+ │   │   ├─┬ c property
+ │   │   │ └── type: primitive:string
+ │   │   └─┬ d property
+ │   │     └── type: primitive:string
+ │   ├─┬ class ClassThatImplementsThePrivateInterface
+ │   │ ├── interfaces: INonInternalInterface
+ │   │ └─┬ members
+ │   │   ├─┬ <initializer>() method
+ │   │   │ └── returns: void
+ │   │   ├─┬ a property
+ │   │   │ └── type: primitive:string
+ │   │   ├─┬ b property
+ │   │   │ └── type: primitive:string
+ │   │   ├─┬ c property
+ │   │   │ └── type: primitive:string
+ │   │   └─┬ e property
+ │   │     └── type: primitive:string
  │   ├─┬ class ClassWithMutableObjectLiteralProperty
  │   │ └─┬ members
  │   │   ├─┬ <initializer>() method
  │   │   │ └── returns: void
  │   │   └─┬ mutableObject property
- │   │     └── type: interface:jsii-calc.MutableObjectLiteral
+ │   │     └── type: interface:jsii-calc.IMutableObjectLiteral
  │   ├─┬ class ClassWithPrivateConstructorAndAutomaticProperties
- │   │ ├── interfaces: InterfaceWithProperties
+ │   │ ├── interfaces: IInterfaceWithProperties
  │   │ └─┬ members
  │   │   ├─┬ create(readOnlyString,readWriteString) method
  │   │   │ ├── static
@@ -255,6 +281,20 @@ assemblies
  │   │   └─┬ makeInterface() method
  │   │     ├── static
  │   │     └── returns: interface:jsii-calc.IPublicInterface
+ │   ├─┬ class ConsumersOfThisCrazyTypeSystem
+ │   │ └─┬ members
+ │   │   ├─┬ <initializer>() method
+ │   │   │ └── returns: void
+ │   │   ├─┬ consumeAnotherPublicInterface(obj) method
+ │   │   │ ├─┬ parameters
+ │   │   │ │ └─┬ obj
+ │   │   │ │   └── type: interface:jsii-calc.IAnotherPublicInterface
+ │   │   │ └── returns: primitive:string
+ │   │   └─┬ consumeNonInternalInterface(obj) method
+ │   │     ├─┬ parameters
+ │   │     │ └─┬ obj
+ │   │     │   └── type: interface:jsii-calc.INonInternalInterface
+ │   │     └── returns: primitive:any
  │   ├─┬ class DefaultedConstructorArgument
  │   │ └─┬ members
  │   │   ├─┬ <initializer>(arg1,arg2,arg3) method
@@ -334,6 +374,24 @@ assemblies
  │   │   │ └── returns: primitive:string
  │   │   └─┬ next() method
  │   │     └── returns: primitive:number
+ │   ├─┬ class EraseUndefinedHashValues
+ │   │ └─┬ members
+ │   │   ├─┬ <initializer>() method
+ │   │   │ └── returns: void
+ │   │   ├─┬ doesKeyExist(opts,key) method
+ │   │   │ ├── static
+ │   │   │ ├─┬ parameters
+ │   │   │ │ ├─┬ opts
+ │   │   │ │ │ └── type: interface:jsii-calc.EraseUndefinedHashValuesOptions
+ │   │   │ │ └─┬ key
+ │   │   │ │   └── type: primitive:string
+ │   │   │ └── returns: primitive:boolean
+ │   │   ├─┬ prop1IsNull() method
+ │   │   │ ├── static
+ │   │   │ └── returns: primitive:any
+ │   │   └─┬ prop2IsUndefined() method
+ │   │     ├── static
+ │   │     └── returns: primitive:any
  │   ├─┬ class ExportedBaseClass
  │   │ └─┬ members
  │   │   ├─┬ <initializer>(success) method
@@ -375,6 +433,30 @@ assemblies
  │   │     │ └─┬ friendly
  │   │     │   └── type: interface:@scope/jsii-calc-lib.IFriendly
  │   │     └── returns: primitive:string
+ │   ├─┬ class ImplementInternalInterface
+ │   │ └─┬ members
+ │   │   ├─┬ <initializer>() method
+ │   │   │ └── returns: void
+ │   │   └─┬ prop property
+ │   │     └── type: primitive:string
+ │   ├─┬ class ImplementsInterfaceWithInternal
+ │   │ ├── interfaces: IInterfaceWithInternal
+ │   │ └─┬ members
+ │   │   ├─┬ <initializer>() method
+ │   │   │ └── returns: void
+ │   │   └─┬ visible() method
+ │   │     └── returns: void
+ │   ├─┬ class ImplementsInterfaceWithInternalSubclass
+ │   │ ├── base: ImplementsInterfaceWithInternal
+ │   │ └─┬ members
+ │   │   └─┬ <initializer>() method
+ │   │     └── returns: void
+ │   ├─┬ class ImplementsPrivateInterface
+ │   │ └─┬ members
+ │   │   ├─┬ <initializer>() method
+ │   │   │ └── returns: void
+ │   │   └─┬ private property
+ │   │     └── type: primitive:string
  │   ├─┬ class InbetweenClass
  │   │ ├── base: PublicClass
  │   │ └─┬ members
@@ -697,6 +779,74 @@ assemblies
  │   │   │ └── returns: void
  │   │   └─┬ hello() method
  │   │     └── returns: void
+ │   ├─┬ class PythonReservedWords
+ │   │ └─┬ members
+ │   │   ├─┬ <initializer>() method
+ │   │   │ └── returns: void
+ │   │   ├─┬ and() method
+ │   │   │ └── returns: void
+ │   │   ├─┬ as() method
+ │   │   │ └── returns: void
+ │   │   ├─┬ assert() method
+ │   │   │ └── returns: void
+ │   │   ├─┬ async() method
+ │   │   │ └── returns: void
+ │   │   ├─┬ await() method
+ │   │   │ └── returns: void
+ │   │   ├─┬ break() method
+ │   │   │ └── returns: void
+ │   │   ├─┬ class() method
+ │   │   │ └── returns: void
+ │   │   ├─┬ continue() method
+ │   │   │ └── returns: void
+ │   │   ├─┬ def() method
+ │   │   │ └── returns: void
+ │   │   ├─┬ del() method
+ │   │   │ └── returns: void
+ │   │   ├─┬ elif() method
+ │   │   │ └── returns: void
+ │   │   ├─┬ else() method
+ │   │   │ └── returns: void
+ │   │   ├─┬ except() method
+ │   │   │ └── returns: void
+ │   │   ├─┬ finally() method
+ │   │   │ └── returns: void
+ │   │   ├─┬ for() method
+ │   │   │ └── returns: void
+ │   │   ├─┬ from() method
+ │   │   │ └── returns: void
+ │   │   ├─┬ global() method
+ │   │   │ └── returns: void
+ │   │   ├─┬ if() method
+ │   │   │ └── returns: void
+ │   │   ├─┬ import() method
+ │   │   │ └── returns: void
+ │   │   ├─┬ in() method
+ │   │   │ └── returns: void
+ │   │   ├─┬ is() method
+ │   │   │ └── returns: void
+ │   │   ├─┬ lambda() method
+ │   │   │ └── returns: void
+ │   │   ├─┬ nonlocal() method
+ │   │   │ └── returns: void
+ │   │   ├─┬ not() method
+ │   │   │ └── returns: void
+ │   │   ├─┬ or() method
+ │   │   │ └── returns: void
+ │   │   ├─┬ pass() method
+ │   │   │ └── returns: void
+ │   │   ├─┬ raise() method
+ │   │   │ └── returns: void
+ │   │   ├─┬ return() method
+ │   │   │ └── returns: void
+ │   │   ├─┬ try() method
+ │   │   │ └── returns: void
+ │   │   ├─┬ while() method
+ │   │   │ └── returns: void
+ │   │   ├─┬ with() method
+ │   │   │ └── returns: void
+ │   │   └─┬ yield() method
+ │   │     └── returns: void
  │   ├─┬ class ReferenceEnumFromScopedPackage
  │   │ └─┬ members
  │   │   ├─┬ <initializer>() method
@@ -787,6 +937,12 @@ assemblies
  │   │   │ └── type: primitive:number
  │   │   └─┬ value property
  │   │     ├── immutable
+ │   │     └── type: primitive:string
+ │   ├─┬ class StripInternal
+ │   │ └─┬ members
+ │   │   ├─┬ <initializer>() method
+ │   │   │ └── returns: void
+ │   │   └─┬ youSeeMe property
  │   │     └── type: primitive:string
  │   ├─┬ class Sum
  │   │ ├── base: CompositeOperation
@@ -881,14 +1037,14 @@ assemblies
  │   │   ├─┬ <initializer>(obj) method
  │   │   │ ├─┬ parameters
  │   │   │ │ └─┬ obj
- │   │   │ │   └── type: interface:jsii-calc.InterfaceWithProperties
+ │   │   │ │   └── type: interface:jsii-calc.IInterfaceWithProperties
  │   │   │ └── returns: void
  │   │   ├─┬ justRead() method
  │   │   │ └── returns: primitive:string
  │   │   ├─┬ readStringAndNumber(ext) method
  │   │   │ ├─┬ parameters
  │   │   │ │ └─┬ ext
- │   │   │ │   └── type: interface:jsii-calc.InterfaceWithPropertiesExtension
+ │   │   │ │   └── type: interface:jsii-calc.IInterfaceWithPropertiesExtension
  │   │   │ └── returns: primitive:string
  │   │   ├─┬ writeAndRead(value) method
  │   │   │ ├─┬ parameters
@@ -897,7 +1053,7 @@ assemblies
  │   │   │ └── returns: primitive:string
  │   │   └─┬ obj property
  │   │     ├── immutable
- │   │     └── type: interface:jsii-calc.InterfaceWithProperties
+ │   │     └── type: interface:jsii-calc.IInterfaceWithProperties
  │   ├─┬ class VariadicMethod
  │   │ └─┬ members
  │   │   ├─┬ <initializer>(prefix) method
@@ -969,9 +1125,11 @@ assemblies
  │   │ └─┬ members
  │   │   ├─┬ initialValue property
  │   │   │ ├── abstract
+ │   │   │ ├── immutable
  │   │   │ └── type: primitive:number (optional)
  │   │   └─┬ maximumValue property
  │   │     ├── abstract
+ │   │     ├── immutable
  │   │     └── type: primitive:number (optional)
  │   ├─┬ interface DerivedStruct
  │   │ ├─┬ interfaces
@@ -979,22 +1137,55 @@ assemblies
  │   │ └─┬ members
  │   │   ├─┬ anotherRequired property
  │   │   │ ├── abstract
+ │   │   │ ├── immutable
  │   │   │ └── type: primitive:date
  │   │   ├─┬ bool property
  │   │   │ ├── abstract
+ │   │   │ ├── immutable
  │   │   │ └── type: primitive:boolean
  │   │   ├─┬ nonPrimitive property
  │   │   │ ├── abstract
+ │   │   │ ├── immutable
  │   │   │ └── type: class:jsii-calc.DoubleTrouble
  │   │   ├─┬ anotherOptional property
  │   │   │ ├── abstract
+ │   │   │ ├── immutable
  │   │   │ └── type: Map<string => class:@scope/jsii-calc-lib.Value>
  │   │   ├─┬ optionalAny property
  │   │   │ ├── abstract
+ │   │   │ ├── immutable
  │   │   │ └── type: primitive:any (optional)
  │   │   └─┬ optionalArray property
  │   │     ├── abstract
+ │   │     ├── immutable
  │   │     └── type: Array<primitive:string>
+ │   ├─┬ interface EraseUndefinedHashValuesOptions
+ │   │ └─┬ members
+ │   │   ├─┬ option1 property
+ │   │   │ ├── abstract
+ │   │   │ ├── immutable
+ │   │   │ └── type: primitive:string (optional)
+ │   │   └─┬ option2 property
+ │   │     ├── abstract
+ │   │     ├── immutable
+ │   │     └── type: primitive:string (optional)
+ │   ├─┬ interface ExtendsInternalInterface
+ │   │ └─┬ members
+ │   │   └─┬ boom property
+ │   │     ├── abstract
+ │   │     ├── immutable
+ │   │     └── type: primitive:boolean
+ │   ├─┬ interface ExtendsPrivateInterface
+ │   │ └─┬ members
+ │   │   └─┬ moreThings property
+ │   │     ├── abstract
+ │   │     ├── immutable
+ │   │     └── type: Array<primitive:string>
+ │   ├─┬ interface IAnotherPublicInterface
+ │   │ └─┬ members
+ │   │   └─┬ a property
+ │   │     ├── abstract
+ │   │     └── type: primitive:string
  │   ├─┬ interface IFriendlier
  │   │ ├─┬ interfaces
  │   │ │ └── IFriendly
@@ -1018,6 +1209,11 @@ assemblies
  │   │     ├── abstract
  │   │     ├── immutable
  │   │     └── type: primitive:string
+ │   ├─┬ interface IInterfaceWithInternal
+ │   │ └─┬ members
+ │   │   └─┬ visible() method
+ │   │     ├── abstract
+ │   │     └── returns: void
  │   ├─┬ interface IInterfaceWithMethods
  │   │ └─┬ members
  │   │   ├─┬ doThings() method
@@ -1037,6 +1233,34 @@ assemblies
  │   │     │ └─┬ arg2
  │   │     │   └── type: primitive:number (optional)
  │   │     └── returns: void
+ │   ├─┬ interface IInterfaceWithProperties
+ │   │ └─┬ members
+ │   │   ├─┬ readOnlyString property
+ │   │   │ ├── abstract
+ │   │   │ ├── immutable
+ │   │   │ └── type: primitive:string
+ │   │   └─┬ readWriteString property
+ │   │     ├── abstract
+ │   │     └── type: primitive:string
+ │   ├─┬ interface IInterfaceWithPropertiesExtension
+ │   │ ├─┬ interfaces
+ │   │ │ └── IInterfaceWithProperties
+ │   │ └─┬ members
+ │   │   └─┬ foo property
+ │   │     ├── abstract
+ │   │     └── type: primitive:number
+ │   ├─┬ interface IMutableObjectLiteral
+ │   │ └─┬ members
+ │   │   └─┬ value property
+ │   │     ├── abstract
+ │   │     └── type: primitive:string
+ │   ├─┬ interface INonInternalInterface
+ │   │ ├─┬ interfaces
+ │   │ │ └── IAnotherPublicInterface
+ │   │ └─┬ members
+ │   │   └─┬ c property
+ │   │     ├── abstract
+ │   │     └── type: primitive:string
  │   ├─┬ interface IPrivatelyImplemented
  │   │ └─┬ members
  │   │   └─┬ success property
@@ -1068,6 +1292,7 @@ assemblies
  │   │ └─┬ members
  │   │   └─┬ goo property
  │   │     ├── abstract
+ │   │     ├── immutable
  │   │     └── type: primitive:date
  │   ├─┬ interface InterfaceImplementedByAbstractClass
  │   │ └─┬ members
@@ -1079,57 +1304,45 @@ assemblies
  │   │ └─┬ members
  │   │   └─┬ foo property
  │   │     ├── abstract
+ │   │     ├── immutable
  │   │     └── type: primitive:number
  │   ├─┬ interface Hello
  │   │ └─┬ members
  │   │   └─┬ foo property
  │   │     ├── abstract
- │   │     └── type: primitive:number
- │   ├─┬ interface InterfaceWithProperties
- │   │ └─┬ members
- │   │   ├─┬ readOnlyString property
- │   │   │ ├── abstract
- │   │   │ ├── immutable
- │   │   │ └── type: primitive:string
- │   │   └─┬ readWriteString property
- │   │     ├── abstract
- │   │     └── type: primitive:string
- │   ├─┬ interface InterfaceWithPropertiesExtension
- │   │ ├─┬ interfaces
- │   │ │ └── InterfaceWithProperties
- │   │ └─┬ members
- │   │   └─┬ foo property
- │   │     ├── abstract
+ │   │     ├── immutable
  │   │     └── type: primitive:number
  │   ├─┬ interface LoadBalancedFargateServiceProps
  │   │ └─┬ members
  │   │   ├─┬ containerPort property
  │   │   │ ├── abstract
+ │   │   │ ├── immutable
  │   │   │ └── type: primitive:number (optional)
  │   │   ├─┬ cpu property
  │   │   │ ├── abstract
+ │   │   │ ├── immutable
  │   │   │ └── type: primitive:string (optional)
  │   │   ├─┬ memoryMiB property
  │   │   │ ├── abstract
+ │   │   │ ├── immutable
  │   │   │ └── type: primitive:string (optional)
  │   │   ├─┬ publicLoadBalancer property
  │   │   │ ├── abstract
+ │   │   │ ├── immutable
  │   │   │ └── type: primitive:boolean (optional)
  │   │   └─┬ publicTasks property
  │   │     ├── abstract
+ │   │     ├── immutable
  │   │     └── type: primitive:boolean (optional)
- │   ├─┬ interface MutableObjectLiteral
- │   │ └─┬ members
- │   │   └─┬ value property
- │   │     ├── abstract
- │   │     └── type: primitive:string
  │   ├─┬ interface NullShouldBeTreatedAsUndefinedData
  │   │ └─┬ members
  │   │   ├─┬ arrayWithThreeElementsAndUndefinedAsSecondArgument property
  │   │   │ ├── abstract
+ │   │   │ ├── immutable
  │   │   │ └── type: Array<primitive:any>
  │   │   └─┬ thisShouldBeUndefined property
  │   │     ├── abstract
+ │   │     ├── immutable
  │   │     └── type: primitive:any (optional)
  │   ├─┬ interface UnionProperties
  │   │ └─┬ members
@@ -1139,6 +1352,7 @@ assemblies
  │   │   │ └── type: primitive:string | primitive:number | class:jsii-calc.AllTypes
  │   │   └─┬ foo property
  │   │     ├── abstract
+ │   │     ├── immutable
  │   │     └── type: primitive:string | primitive:number
  │   ├─┬ enum AllTypesEnum
  │   │ ├── MyEnumValue
@@ -1167,6 +1381,7 @@ assemblies
  │     └─┬ members
  │       └─┬ bar property
  │         ├── abstract
+ │         ├── immutable
  │         └── type: primitive:string
  ├─┬ @scope/jsii-calc-base-of-base
  │ └─┬ types
@@ -1180,6 +1395,7 @@ assemblies
  │     └─┬ members
  │       └─┬ foo property
  │         ├── abstract
+ │         ├── immutable
  │         └── type: class:@scope/jsii-calc-base-of-base.Very
  └─┬ @scope/jsii-calc-lib
    ├─┬ dependencies
@@ -1234,23 +1450,29 @@ assemblies
      │ └─┬ members
      │   ├─┬ anumber property
      │   │ ├── abstract
+     │   │ ├── immutable
      │   │ └── type: primitive:number
      │   ├─┬ astring property
      │   │ ├── abstract
+     │   │ ├── immutable
      │   │ └── type: primitive:string
      │   └─┬ firstOptional property
      │     ├── abstract
+     │     ├── immutable
      │     └── type: Array<primitive:string>
      ├─┬ interface StructWithOnlyOptionals
      │ └─┬ members
      │   ├─┬ optional1 property
      │   │ ├── abstract
+     │   │ ├── immutable
      │   │ └── type: primitive:string (optional)
      │   ├─┬ optional2 property
      │   │ ├── abstract
+     │   │ ├── immutable
      │   │ └── type: primitive:number (optional)
      │   └─┬ optional3 property
      │     ├── abstract
+     │     ├── immutable
      │     └── type: primitive:boolean (optional)
      └─┬ enum EnumFromScopedModule
        ├── Value1
