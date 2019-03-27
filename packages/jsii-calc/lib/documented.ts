@@ -34,5 +34,5 @@ export interface Greetee {
    *
    * @defaultValue world
    */
-  name?: string;
+  readonly name?: string;
 }
