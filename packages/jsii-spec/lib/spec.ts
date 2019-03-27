@@ -227,6 +227,11 @@ export interface Docs {
      * Description of the default
      */
     default?: string;
+
+    /**
+     * Custom tags that are not any of the default ones
+     */
+    custom?: {[tag: string]: string};
 }
 
 export enum Stability {

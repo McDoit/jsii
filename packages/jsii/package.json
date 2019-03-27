@@ -44,7 +44,6 @@
         "sort-json": "^2.0.0",
         "spdx-license-list": "^5.0.0",
         "typescript": "^3.3.3333",
-        "@microsoft/tsdoc": "^0.12.7",
         "yargs": "^13.2.2"
     },
     "nyc": {

@@ -1,66 +1,85 @@
-import tsdoc = require('@microsoft/tsdoc');
+/**
+ * Doc Comment parsing
+ *
+ * I tried using TSDoc here.
+ *
+ * Pro:
+ * - Future standard.
+ * - Does validating parsing and complains on failure.
+ * - Has a more flexible interpretation of the @example tag (starts in text mode).
+ *
+ * Con:
+ * - Different tags from JSDoc (@defaultValue instead of @default, "@param name
+ *   description" instead "@param name description".
+ * - @example tag has a different interpretation than VSCode and JSDoc
+ *   (VSCode/JSDoc starts in code mode), which is confusing for syntax
+ *   highlighting in the editor.
+ * - Allows no unknown tags.
+ * - Wants to be in charge of parsing TypeScript, integrating into other build is
+ *   possible but harder.
+ * - Parse to a DOM with no easy way to roundtrip back to equivalent MarkDown.
+ *
+ * Especially the last point: while parsing to and storing the parsed docs DOM
+ * in the jsii assembly is superior in the long term (for example for
+ * converting to different output formats, JavaDoc, C# docs, refdocs which all
+ * accept slightly different syntaxes), right now we can get 80% of the bang
+ * for 10% of the buck by just reading, storing and reproducing MarkDown, which
+ * is Readable Enough(tm).
+ *
+ * If we ever want to attempt TSDoc again, this would be a good place to look at:
+ *
+ * https://github.com/Microsoft/tsdoc/blob/master/api-demo/src/advancedDemo.ts
+ */
 import spec = require('jsii-spec');
 import ts = require('typescript');
-import { Diagnostic } from './emitter';
 
-// NOTE: Add support for the '@default' tag, which is in JSDoc but not in TSDoc.
-const shortDefaultTag: tsdoc.TSDocTagDefinition = new tsdoc.TSDocTagDefinition({
-  tagName: '@default',
-  syntaxKind: tsdoc.TSDocTagSyntaxKind.BlockTag,
-});
+export function parseSymbolDocumentation(comments: string | undefined, tags: ts.JSDocTagInfo[]): DocsParsingResult {
+  const diagnostics = new Array<string>();
+  const docs: spec.Docs = {};
 
-// A tag that is added by cfn2ts
-const cloudFormationAttributeTag: tsdoc.TSDocTagDefinition = new tsdoc.TSDocTagDefinition({
-  tagName: '@cloudformationAttribute',
-  syntaxKind: tsdoc.TSDocTagSyntaxKind.BlockTag,
-});
+  [docs.summary, docs.remarks] = splitSummary(comments);
 
-// A tag to refer to a webpage with more documentation
-const seeTag: tsdoc.TSDocTagDefinition = new tsdoc.TSDocTagDefinition({
-  tagName: '@see',
-  syntaxKind: tsdoc.TSDocTagSyntaxKind.BlockTag,
-});
-
-const parserConfiguration = new tsdoc.TSDocConfiguration();
-parserConfiguration.addTagDefinitions([
-  shortDefaultTag,
-  cloudFormationAttributeTag,
-  seeTag
-]);
-
-export function parseSymbolDocumentation(node: ts.Node): DocsParsingResult {
-  const parser = new tsdoc.TSDocParser(parserConfiguration);
-
-  const diagnostics = new Array<Diagnostic>();
-  const docs = {};
-
-  const jsdocs = getJSDocCommentRanges(node);
-  if (jsdocs.length > 1) {
-    diagnostics.push({
-      messageText: 'jsii compiler has not been built to deal with more than one JSDoc comment. Docs may be incorrect.',
-      file: node.getSourceFile(),
-      start: jsdocs[1].pos,
-      length: jsdocs[1].end - jsdocs[1].pos,
-      category: ts.DiagnosticCategory.Warning,
-      code: 0,
-      domain: 'JSII'
-    });
+  const tagNames = new Map<string, string | undefined>();
+  for (const tag of tags) {
+    // 'param' gets parsed as a tag and as a comment for a method
+    if (tag.name !== 'param') { tagNames.set(tag.name, tag.text); }
   }
 
-  for (const jsdoc of jsdocs) {
-    const context = parser.parseRange(jsdoc);
-    Object.assign(docs, tsdocToJsii(context.docComment));
+  function eatTag(...names: string[]): string | undefined {
+    for (const name of names) {
+      if (tagNames.has(name)) {
+        const ret = tagNames.get(name);
+        tagNames.delete(name);
+        return ret || '';
+      }
+    }
+    return undefined;
+  }
 
-    for (const message of context.log.messages) {
-      diagnostics.push({
-        messageText: message.text,
-        file: node.getSourceFile(),
-        start: message.textRange.pos,
-        length: message.textRange.end - message.textRange.pos,
-        category: ts.DiagnosticCategory.Error,
-        code: 0,
-        domain: 'TSDOC'
-      });
+  docs.default = eatTag('default', 'defaultValue');
+  docs.deprecated = eatTag('deprecated');
+  docs.example = eatTag('example');
+  docs.returns = eatTag('returns', 'return');
+  docs.seeLink = eatTag('see');
+
+  const experimental = eatTag('experimental') !== undefined;
+  const stable = eatTag('stable') !== undefined;
+
+  if (docs.example && docs.example.indexOf('```') >= 0) {
+    diagnostics.push('@example must be code only, no code block fences allowed.');
+  }
+
+  if (experimental && stable) {
+    diagnostics.push('Element is marked both @experimental and @stable.');
+  }
+
+  if (experimental) { docs.stability = spec.Stability.Experimental; }
+  if (stable) { docs.stability = spec.Stability.Stable; }
+
+  if (tagNames.size > 0) {
+    docs.custom = {};
+    for (const [key, value] of tagNames.entries()) {
+      docs.custom[key] = value || '';
     }
   }
 
@@ -69,42 +88,43 @@ export function parseSymbolDocumentation(node: ts.Node): DocsParsingResult {
 
 export interface DocsParsingResult {
   docs: spec.Docs;
-  diagnostics?: Diagnostic[];
+  diagnostics?: string[];
 }
 
 /**
- * Retrieves the JSDoc-style comments associated with a specific AST node.
+ * Split the doc comment into summary and remarks
+ */
+export function splitSummary(docBlock: string | undefined): [string | undefined, string | undefined] {
+  if (!docBlock) { return [undefined, undefined]; }
+  const summary = summaryLine(docBlock);
+  const remarks = docBlock.substr(summary.length);
+  return [endWithPeriod(noNewlines(summary.trim())), remarks.trim()];
+}
+
+/**
+ * Replace newlines with spaces for use in tables
+ */
+function noNewlines(s: string) {
+  return s.replace(/\n/g, ' ');
+}
+
+function endWithPeriod(s: string) {
+  return s.endsWith('.') ? s : s + '.';
+}
+
+/**
+ * Find the summary line for a doc comment
  *
- * Based on ts.getJSDocCommentRanges() from the compiler.
- * https://github.com/Microsoft/TypeScript/blob/v3.0.3/src/compiler/utilities.ts#L924
+ * In principle we'll take the first paragraph, but if there are no paragraphs
+ * (because people don't put in paragraph breaks) or the first paragraph is too
+ * lang, we'll take the first sentence (terminated by a period).
  */
-function getJSDocCommentRanges(node: ts.Node): tsdoc.TextRange[] {
-  const text: string = node.getSourceFile().getFullText(); // don't use getText() here!
-  const commentRanges: ts.CommentRange[] = [];
+function summaryLine(str: string) {
+  const paras = str.split('\n\n');
+  if (paras.length > 1 && paras[0].split(' ').length < 30) { return paras[0]; }
 
-  switch (node.kind) {
-    case ts.SyntaxKind.Parameter:
-    case ts.SyntaxKind.TypeParameter:
-    case ts.SyntaxKind.FunctionExpression:
-    case ts.SyntaxKind.ArrowFunction:
-    case ts.SyntaxKind.ParenthesizedExpression:
-      commentRanges.push(...ts.getTrailingCommentRanges(text, node.pos) || []);
-      break;
-  }
-  commentRanges.push(...ts.getLeadingCommentRanges(text, node.pos) || []);
+  const m = /^([^.]+\.)/.exec(str);
+  if (m) { return m[1]; }
 
-  // True if the comment starts with '/**' but not if it is '/**/'
-  const jsdocs = commentRanges.filter((comment) =>
-    text.charCodeAt(comment.pos + 1) === 0x2A /* ts.CharacterCodes.asterisk */ &&
-    text.charCodeAt(comment.pos + 2) === 0x2A /* ts.CharacterCodes.asterisk */ &&
-    text.charCodeAt(comment.pos + 3) !== 0x2F /* ts.CharacterCodes.slash */);
-
-  return jsdocs.map(comment => tsdoc.TextRange.fromStringRange(text, comment.pos, comment.end));
-}
-
-/**
- * Convert tsdocs to jsii docs
- */
-function tsdocToJsii(_docs: tsdoc.DocComment): spec.Docs {
-  return {};
+  return str;
 }
