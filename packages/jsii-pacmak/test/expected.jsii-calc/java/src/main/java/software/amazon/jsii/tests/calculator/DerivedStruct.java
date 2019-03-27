@@ -1,19 +1,10 @@
 package software.amazon.jsii.tests.calculator;
 
-/**
- * A struct which derives from another struct.
- */
 @javax.annotation.Generated(value = "jsii-pacmak")
 public interface DerivedStruct extends software.amazon.jsii.JsiiSerializable, software.amazon.jsii.tests.calculator.lib.MyFirstStruct {
     java.time.Instant getAnotherRequired();
     java.lang.Boolean getBool();
-    /**
-     * An example of a non primitive property.
-     */
     software.amazon.jsii.tests.calculator.DoubleTrouble getNonPrimitive();
-    /**
-     * This is optional.
-     */
     java.util.Map<java.lang.String, software.amazon.jsii.tests.calculator.lib.Value> getAnotherOptional();
     java.lang.Object getOptionalAny();
     java.util.List<java.lang.String> getOptionalArray();
@@ -63,7 +54,7 @@ public interface DerivedStruct extends software.amazon.jsii.JsiiSerializable, so
         }
         /**
          * Sets the value of NonPrimitive
-         * @param value An example of a non primitive property.
+         * @param value the value to be set
          * @return {@code this}
          */
         public Builder withNonPrimitive(final software.amazon.jsii.tests.calculator.DoubleTrouble value) {
@@ -72,7 +63,7 @@ public interface DerivedStruct extends software.amazon.jsii.JsiiSerializable, so
         }
         /**
          * Sets the value of AnotherOptional
-         * @param value This is optional.
+         * @param value the value to be set
          * @return {@code this}
          */
         public Builder withAnotherOptional(@javax.annotation.Nullable final java.util.Map<java.lang.String, software.amazon.jsii.tests.calculator.lib.Value> value) {
@@ -99,7 +90,7 @@ public interface DerivedStruct extends software.amazon.jsii.JsiiSerializable, so
         }
         /**
          * Sets the value of Anumber
-         * @param value An awesome number value
+         * @param value the value to be set
          * @return {@code this}
          */
         public Builder withAnumber(final java.lang.Number value) {
@@ -108,7 +99,7 @@ public interface DerivedStruct extends software.amazon.jsii.JsiiSerializable, so
         }
         /**
          * Sets the value of Astring
-         * @param value A string value
+         * @param value the value to be set
          * @return {@code this}
          */
         public Builder withAstring(final java.lang.String value) {
@@ -228,17 +219,11 @@ public interface DerivedStruct extends software.amazon.jsii.JsiiSerializable, so
             return this.jsiiGet("bool", java.lang.Boolean.class);
         }
 
-        /**
-         * An example of a non primitive property.
-         */
         @Override
         public software.amazon.jsii.tests.calculator.DoubleTrouble getNonPrimitive() {
             return this.jsiiGet("nonPrimitive", software.amazon.jsii.tests.calculator.DoubleTrouble.class);
         }
 
-        /**
-         * This is optional.
-         */
         @Override
         @javax.annotation.Nullable
         public java.util.Map<java.lang.String, software.amazon.jsii.tests.calculator.lib.Value> getAnotherOptional() {
@@ -257,17 +242,11 @@ public interface DerivedStruct extends software.amazon.jsii.JsiiSerializable, so
             return this.jsiiGet("optionalArray", java.util.List.class);
         }
 
-        /**
-         * An awesome number value
-         */
         @Override
         public java.lang.Number getAnumber() {
             return this.jsiiGet("anumber", java.lang.Number.class);
         }
 
-        /**
-         * A string value
-         */
         @Override
         public java.lang.String getAstring() {
             return this.jsiiGet("astring", java.lang.String.class);

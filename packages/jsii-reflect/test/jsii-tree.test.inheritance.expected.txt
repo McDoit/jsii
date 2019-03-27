@@ -32,6 +32,7 @@ assemblies
  │   │ └── base: Base
  │   ├── class DoNotOverridePrivates
  │   ├── class DoNotRecognizeAnyAsOptional
+ │   ├── class DocumentedClass
  │   ├── class DontComplainAboutVariadicAfterOptional
  │   ├─┬ class DoubleTrouble
  │   │ └── interfaces: IFriendlyRandomGenerator
@@ -95,6 +96,7 @@ assemblies
  │   ├── interface EraseUndefinedHashValuesOptions
  │   ├── interface ExtendsInternalInterface
  │   ├── interface ExtendsPrivateInterface
+ │   ├── interface Greetee
  │   ├── interface IAnotherPublicInterface
  │   ├─┬ interface IFriendlier
  │   │ └─┬ interfaces

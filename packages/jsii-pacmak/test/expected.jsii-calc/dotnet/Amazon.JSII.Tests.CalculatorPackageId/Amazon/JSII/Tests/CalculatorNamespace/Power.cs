@@ -4,7 +4,6 @@ using Amazon.JSII.Tests.CalculatorNamespace.LibNamespace;
 
 namespace Amazon.JSII.Tests.CalculatorNamespace
 {
-    /// <summary>The power operation.</summary>
     [JsiiClass(typeof(Power), "jsii-calc.Power", "[{\"name\":\"base\",\"type\":{\"fqn\":\"@scope/jsii-calc-lib.Value\"}},{\"name\":\"pow\",\"type\":{\"fqn\":\"@scope/jsii-calc-lib.Value\"}}]")]
     public class Power : CompositeOperation_
     {
@@ -20,24 +19,18 @@ namespace Amazon.JSII.Tests.CalculatorNamespace
         {
         }
 
-        /// <summary>The base of the power</summary>
         [JsiiProperty("base", "{\"fqn\":\"@scope/jsii-calc-lib.Value\"}")]
         public virtual Value_ Base
         {
             get => GetInstanceProperty<Value_>();
         }
 
-        /// <summary>
-        /// The expression that this operation consists of.
-        /// Must be implemented by derived classes.
-        /// </summary>
         [JsiiProperty("expression", "{\"fqn\":\"@scope/jsii-calc-lib.Value\"}")]
         public override Value_ Expression
         {
             get => GetInstanceProperty<Value_>();
         }
 
-        /// <summary>The number of times to multiply</summary>
         [JsiiProperty("pow", "{\"fqn\":\"@scope/jsii-calc-lib.Value\"}")]
         public virtual Value_ Pow
         {

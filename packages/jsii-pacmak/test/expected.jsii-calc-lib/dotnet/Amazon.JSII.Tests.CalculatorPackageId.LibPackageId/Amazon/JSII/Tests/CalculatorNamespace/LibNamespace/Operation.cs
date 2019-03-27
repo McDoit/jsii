@@ -2,7 +2,6 @@ using Amazon.JSII.Runtime.Deputy;
 
 namespace Amazon.JSII.Tests.CalculatorNamespace.LibNamespace
 {
-    /// <summary>Represents an operation on values.</summary>
     [JsiiClass(typeof(Operation), "@scope/jsii-calc-lib.Operation", "[]")]
     public abstract class Operation : Value_
     {
@@ -18,7 +17,6 @@ namespace Amazon.JSII.Tests.CalculatorNamespace.LibNamespace
         {
         }
 
-        /// <summary>String representation of the value.</summary>
         [JsiiMethod("toString", "{\"primitive\":\"string\"}", "[]")]
         public override abstract string ToString();
     }

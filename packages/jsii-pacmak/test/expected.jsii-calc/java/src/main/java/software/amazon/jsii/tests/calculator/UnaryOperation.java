@@ -1,8 +1,5 @@
 package software.amazon.jsii.tests.calculator;
 
-/**
- * An operation on a single operand.
- */
 @javax.annotation.Generated(value = "jsii-pacmak")
 @software.amazon.jsii.Jsii(module = software.amazon.jsii.tests.calculator.$Module.class, fqn = "jsii-calc.UnaryOperation")
 public abstract class UnaryOperation extends software.amazon.jsii.tests.calculator.lib.Operation {
@@ -22,17 +19,11 @@ public abstract class UnaryOperation extends software.amazon.jsii.tests.calculat
             super(mode);
         }
 
-        /**
-         * The value.
-         */
         @Override
         public java.lang.Number getValue() {
             return this.jsiiGet("value", java.lang.Number.class);
         }
 
-        /**
-         * String representation of the value.
-         */
         @Override
         public java.lang.String toString() {
             return this.jsiiCall("toString", java.lang.String.class);

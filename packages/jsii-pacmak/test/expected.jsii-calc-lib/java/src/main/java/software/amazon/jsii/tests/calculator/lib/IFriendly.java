@@ -1,14 +1,7 @@
 package software.amazon.jsii.tests.calculator.lib;
 
-/**
- * Applies to classes that are considered friendly. These classes can be greeted with
- * a "hello" or "goodbye" blessing and they will respond back in a fun and friendly manner.
- */
 @javax.annotation.Generated(value = "jsii-pacmak")
 public interface IFriendly extends software.amazon.jsii.JsiiSerializable {
-    /**
-     * Say hello!
-     */
     java.lang.String hello();
 
     /**
@@ -19,9 +12,6 @@ public interface IFriendly extends software.amazon.jsii.JsiiSerializable {
             super(mode);
         }
 
-        /**
-         * Say hello!
-         */
         @Override
         public java.lang.String hello() {
             return this.jsiiCall("hello", java.lang.String.class);

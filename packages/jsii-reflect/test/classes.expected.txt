@@ -21,6 +21,7 @@ DefaultedConstructorArgument
 Derived
 DoNotOverridePrivates
 DoNotRecognizeAnyAsOptional
+DocumentedClass
 DontComplainAboutVariadicAfterOptional
 DoubleTrouble
 EraseUndefinedHashValues

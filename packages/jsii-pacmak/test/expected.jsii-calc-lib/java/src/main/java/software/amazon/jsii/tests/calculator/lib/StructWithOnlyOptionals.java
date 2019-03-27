@@ -1,13 +1,7 @@
 package software.amazon.jsii.tests.calculator.lib;
 
-/**
- * This is a struct with only optional properties.
- */
 @javax.annotation.Generated(value = "jsii-pacmak")
 public interface StructWithOnlyOptionals extends software.amazon.jsii.JsiiSerializable {
-    /**
-     * The first optional!
-     */
     java.lang.String getOptional1();
     java.lang.Number getOptional2();
     java.lang.Boolean getOptional3();
@@ -32,7 +26,7 @@ public interface StructWithOnlyOptionals extends software.amazon.jsii.JsiiSerial
 
         /**
          * Sets the value of Optional1
-         * @param value The first optional!
+         * @param value the value to be set
          * @return {@code this}
          */
         public Builder withOptional1(@javax.annotation.Nullable final java.lang.String value) {
@@ -108,9 +102,6 @@ public interface StructWithOnlyOptionals extends software.amazon.jsii.JsiiSerial
             super(mode);
         }
 
-        /**
-         * The first optional!
-         */
         @Override
         @javax.annotation.Nullable
         public java.lang.String getOptional1() {

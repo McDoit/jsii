@@ -1,9 +1,5 @@
 package software.amazon.jsii.tests.calculator;
 
-/**
- * awslabs/jsii#175
- * Interface proxies (and builders) do not respect optional arguments in methods
- */
 @javax.annotation.Generated(value = "jsii-pacmak")
 public interface IInterfaceWithOptionalMethodArguments extends software.amazon.jsii.JsiiSerializable {
     void hello(final java.lang.String arg1, @javax.annotation.Nullable final java.lang.Number arg2);

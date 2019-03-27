@@ -1,8 +1,5 @@
 package software.amazon.jsii.tests.calculator;
 
-/**
- * Class that implements interface properties automatically, but using a private constructor
- */
 @javax.annotation.Generated(value = "jsii-pacmak")
 @software.amazon.jsii.Jsii(module = software.amazon.jsii.tests.calculator.$Module.class, fqn = "jsii-calc.ClassWithPrivateConstructorAndAutomaticProperties")
 public class ClassWithPrivateConstructorAndAutomaticProperties extends software.amazon.jsii.JsiiObject implements software.amazon.jsii.tests.calculator.IInterfaceWithProperties {

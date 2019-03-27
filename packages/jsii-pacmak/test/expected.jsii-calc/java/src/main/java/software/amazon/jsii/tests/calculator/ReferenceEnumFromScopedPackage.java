@@ -1,8 +1,5 @@
 package software.amazon.jsii.tests.calculator;
 
-/**
- * See awslabs/jsii#138
- */
 @javax.annotation.Generated(value = "jsii-pacmak")
 @software.amazon.jsii.Jsii(module = software.amazon.jsii.tests.calculator.$Module.class, fqn = "jsii-calc.ReferenceEnumFromScopedPackage")
 public class ReferenceEnumFromScopedPackage extends software.amazon.jsii.JsiiObject {

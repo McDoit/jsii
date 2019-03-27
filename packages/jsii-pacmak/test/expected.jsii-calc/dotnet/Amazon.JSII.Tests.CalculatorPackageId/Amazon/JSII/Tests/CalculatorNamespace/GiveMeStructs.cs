@@ -24,21 +24,18 @@ namespace Amazon.JSII.Tests.CalculatorNamespace
             get => GetInstanceProperty<IStructWithOnlyOptionals>();
         }
 
-        /// <summary>Accepts a struct of type DerivedStruct and returns a struct of type FirstStruct.</summary>
         [JsiiMethod("derivedToFirst", "{\"fqn\":\"@scope/jsii-calc-lib.MyFirstStruct\"}", "[{\"name\":\"derived\",\"type\":{\"fqn\":\"jsii-calc.DerivedStruct\"}}]")]
         public virtual IMyFirstStruct DerivedToFirst(IDerivedStruct derived)
         {
             return InvokeInstanceMethod<IMyFirstStruct>(new object[]{derived});
         }
 
-        /// <summary>Returns the boolean from a DerivedStruct struct.</summary>
         [JsiiMethod("readDerivedNonPrimitive", "{\"fqn\":\"jsii-calc.DoubleTrouble\"}", "[{\"name\":\"derived\",\"type\":{\"fqn\":\"jsii-calc.DerivedStruct\"}}]")]
         public virtual DoubleTrouble ReadDerivedNonPrimitive(IDerivedStruct derived)
         {
             return InvokeInstanceMethod<DoubleTrouble>(new object[]{derived});
         }
 
-        /// <summary>Returns the "anumber" from a MyFirstStruct struct;</summary>
         [JsiiMethod("readFirstNumber", "{\"primitive\":\"number\"}", "[{\"name\":\"first\",\"type\":{\"fqn\":\"@scope/jsii-calc-lib.MyFirstStruct\"}}]")]
         public virtual double ReadFirstNumber(IMyFirstStruct first)
         {

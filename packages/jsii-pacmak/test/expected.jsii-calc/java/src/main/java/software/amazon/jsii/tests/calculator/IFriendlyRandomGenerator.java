@@ -11,18 +11,11 @@ public interface IFriendlyRandomGenerator extends software.amazon.jsii.JsiiSeria
             super(mode);
         }
 
-        /**
-         * Returns another random number.
-         * @return A random number.
-         */
         @Override
         public java.lang.Number next() {
             return this.jsiiCall("next", java.lang.Number.class);
         }
 
-        /**
-         * Say hello!
-         */
         @Override
         public java.lang.String hello() {
             return this.jsiiCall("hello", java.lang.String.class);

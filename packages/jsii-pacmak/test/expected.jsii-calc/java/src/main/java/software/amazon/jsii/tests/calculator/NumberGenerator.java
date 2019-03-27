@@ -1,9 +1,5 @@
 package software.amazon.jsii.tests.calculator;
 
-/**
- * This allows us to test that a reference can be stored for objects that
- * implement interfaces.
- */
 @javax.annotation.Generated(value = "jsii-pacmak")
 @software.amazon.jsii.Jsii(module = software.amazon.jsii.tests.calculator.$Module.class, fqn = "jsii-calc.NumberGenerator")
 public class NumberGenerator extends software.amazon.jsii.JsiiObject {

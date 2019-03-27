@@ -1,14 +1,7 @@
 package software.amazon.jsii.tests.calculator;
 
-/**
- * Generates random numbers.
- */
 @javax.annotation.Generated(value = "jsii-pacmak")
 public interface IRandomNumberGenerator extends software.amazon.jsii.JsiiSerializable {
-    /**
-     * Returns another random number.
-     * @return A random number.
-     */
     java.lang.Number next();
 
     /**
@@ -19,10 +12,6 @@ public interface IRandomNumberGenerator extends software.amazon.jsii.JsiiSeriali
             super(mode);
         }
 
-        /**
-         * Returns another random number.
-         * @return A random number.
-         */
         @Override
         public java.lang.Number next() {
             return this.jsiiCall("next", java.lang.Number.class);

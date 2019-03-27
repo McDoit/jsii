@@ -2,7 +2,6 @@ using Amazon.JSII.Runtime.Deputy;
 
 namespace Amazon.JSII.Tests.CalculatorNamespace.BaseNamespace
 {
-    /// <summary>A base class.</summary>
     [JsiiClass(typeof(Base), "@scope/jsii-calc-base.Base", "[]")]
     public abstract class Base : DeputyBase
     {
@@ -18,7 +17,6 @@ namespace Amazon.JSII.Tests.CalculatorNamespace.BaseNamespace
         {
         }
 
-        /// <returns>the name of the class (to verify native type names are created for derived classes).</returns>
         [JsiiMethod("typeName", "{\"primitive\":\"any\"}", "[]")]
         public virtual object TypeName()
         {

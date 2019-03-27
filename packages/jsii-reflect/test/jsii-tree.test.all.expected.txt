@@ -352,6 +352,15 @@ assemblies
  │   │     │ └─┬ _optionalString
  │   │     │   └── type: primitive:string (optional)
  │   │     └── returns: void
+ │   ├─┬ class DocumentedClass
+ │   │ └─┬ members
+ │   │   ├─┬ <initializer>() method
+ │   │   │ └── returns: void
+ │   │   └─┬ greet(greetee) method
+ │   │     ├─┬ parameters
+ │   │     │ └─┬ greetee
+ │   │     │   └── type: interface:jsii-calc.Greetee (optional)
+ │   │     └── returns: primitive:number
  │   ├─┬ class DontComplainAboutVariadicAfterOptional
  │   │ └─┬ members
  │   │   ├─┬ <initializer>() method
@@ -1181,6 +1190,12 @@ assemblies
  │   │     ├── abstract
  │   │     ├── immutable
  │   │     └── type: Array<primitive:string>
+ │   ├─┬ interface Greetee
+ │   │ └─┬ members
+ │   │   └─┬ name property
+ │   │     ├── abstract
+ │   │     ├── immutable
+ │   │     └── type: primitive:string (optional)
  │   ├─┬ interface IAnotherPublicInterface
  │   │ └─┬ members
  │   │   └─┬ a property
