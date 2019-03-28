@@ -356,11 +356,13 @@ assemblies
  │   │ └─┬ members
  │   │   ├─┬ <initializer>() method
  │   │   │ └── returns: void
- │   │   └─┬ greet(greetee) method
- │   │     ├─┬ parameters
- │   │     │ └─┬ greetee
- │   │     │   └── type: interface:jsii-calc.Greetee (optional)
- │   │     └── returns: primitive:number
+ │   │   ├─┬ greet(greetee) method
+ │   │   │ ├─┬ parameters
+ │   │   │ │ └─┬ greetee
+ │   │   │ │   └── type: interface:jsii-calc.Greetee (optional)
+ │   │   │ └── returns: primitive:number
+ │   │   └─┬ hola() method
+ │   │     └── returns: void
  │   ├─┬ class DontComplainAboutVariadicAfterOptional
  │   │ └─┬ members
  │   │   ├─┬ <initializer>() method
@@ -725,6 +727,12 @@ assemblies
  │   │     │ └─┬ values
  │   │     │   └── type: Map<string => class:@scope/jsii-calc-lib.Value>
  │   │     └── returns: primitive:number
+ │   ├─┬ class Old
+ │   │ └─┬ members
+ │   │   ├─┬ <initializer>() method
+ │   │   │ └── returns: void
+ │   │   └─┬ doAThing() method
+ │   │     └── returns: void
  │   ├─┬ class OptionalConstructorArgument
  │   │ └─┬ members
  │   │   ├─┬ <initializer>(arg1,arg2,arg3) method

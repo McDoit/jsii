@@ -1,3 +1,4 @@
+import spec = require('jsii-spec');
 import path = require('path');
 import { TypeSystem } from '../lib';
 import { diffTest } from './util';
@@ -150,11 +151,32 @@ describe('Type', () => {
 describe('@deprecated', () => {
   test('can be read on an item', () => {
     const klass = typesys.findClass('jsii-calc.Old');
-
-    klass.
+    expect(klass.docs.isDeprecated).toBeTruthy();
   });
 
   test('is inherited from class', () => {
+    const klass = typesys.findClass('jsii-calc.Old');
+    const method = klass.getMethods()[0];
+    expect(method.docs.isDeprecated).toBeTruthy();
+  });
+});
+
+describe('Stability', () => {
+  test('can be read on an item', () => {
+    const klass = typesys.findClass('jsii-calc.DocumentedClass');
+    expect(klass.docs.stability).toBe(spec.Stability.Stable);
+  });
+
+  test('is inherited from class', () => {
+    const klass = typesys.findClass('jsii-calc.DocumentedClass');
+    const method = klass.getMethods().find(m => m.name === 'greet')!;
+    expect(method.docs.stability).toBe(spec.Stability.Stable);
+  });
+
+  test('can be overridden from class', () => {
+    const klass = typesys.findClass('jsii-calc.DocumentedClass');
+    const method = klass.getMethods().find(m => m.name === 'hola')!;
+    expect(method.docs.stability).toBe(spec.Stability.Experimental);
   });
 });
 

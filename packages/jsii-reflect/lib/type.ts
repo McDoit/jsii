@@ -47,7 +47,7 @@ export abstract class Type implements Documentable {
   }
 
   public get docs(): Docs {
-    return new Docs(this.system, this, this.spec.docs);
+    return new Docs(this.system, this, this.spec.docs || {});
   }
 
   /**
@@ -114,16 +114,5 @@ export abstract class Type implements Documentable {
       ];
     }
     return [];
-  }
-
-  /**
-   * Return the reason for deprecation of this type
-   */
-  public get deprecationReason(): string | undefined {
-    return this.spec.docs && this.spec.docs.deprecated;
-  }
-
-  public get isDeprecated(): boolean {
-    return this.deprecationReason !== undefined;
   }
 }
