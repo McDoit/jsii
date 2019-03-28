@@ -4,6 +4,7 @@ import { InterfaceType } from './interface';
 import { Method } from './method';
 import { Property } from './property';
 import { Type } from './type';
+import { TypeMember } from './type-member';
 import { TypeSystem } from './type-system';
 
 export class ClassType extends Type {
@@ -130,6 +131,14 @@ export class ClassType extends Type {
       out.push(...this.classSpec.interfaces.map(i => this.system.findInterface(i.fqn)));
     }
     return out;
+  }
+
+  public getMembers(inherited = false): TypeMember[] {
+    return (this.getMethods(inherited) as TypeMember[]).concat(this.getProperties(inherited));
+  }
+
+  public get members(): TypeMember[] {
+    return this.getMembers(false);
   }
 
   public isClassType() {

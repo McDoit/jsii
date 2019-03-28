@@ -3,6 +3,7 @@ import { Assembly } from './assembly';
 import { Method } from './method';
 import { Property } from './property';
 import { Type } from './type';
+import { TypeMember } from './type-member';
 import { TypeSystem } from './type-system';
 
 export class InterfaceType extends Type {
@@ -98,4 +99,13 @@ export class InterfaceType extends Type {
   public isInterfaceType() {
     return true;
   }
+
+  public getMembers(inherited = false): TypeMember[] {
+    return (this.getMethods(inherited) as TypeMember[]).concat(this.getProperties(inherited));
+  }
+
+  public get members(): TypeMember[] {
+    return this.getMembers(false);
+  }
+
 }

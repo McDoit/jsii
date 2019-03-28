@@ -124,6 +124,12 @@ export class TypeSystem {
     return asm.findType(fqn);
   }
 
+  public tryFindFqn(fqn: string): Type | undefined {
+    const [ assembly ] = fqn.split('.');
+    const asm = this.findAssembly(assembly);
+    return asm.tryFindType(fqn);
+  }
+
   public findClass(fqn: string): ClassType {
     const type = this.findFqn(fqn);
     if (!(type instanceof ClassType)) {

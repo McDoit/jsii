@@ -4,10 +4,13 @@ import { Docs, Documentable } from './docs';
 import { Overridable } from './overridable';
 import { Parameter } from './parameter';
 import { Type } from './type';
+import { MemberKind, TypeMember } from './type-member';
 import { TypeReference } from './type-ref';
 import { TypeSystem } from './type-system';
 
-export class Method implements Documentable, Overridable {
+export class Method implements Documentable, Overridable, TypeMember {
+  public readonly kind = MemberKind.Method;
+
   constructor(
     public readonly system: TypeSystem,
     public readonly assembly: Assembly,
