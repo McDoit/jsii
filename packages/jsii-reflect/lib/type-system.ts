@@ -65,7 +65,7 @@ export class TypeSystem {
       }
 
       const root = await self.loadFile(path.join(moduleDirectory, '.jsii'), isRoot);
-      const bundled: string[] = pkg.bundledDependencies || [];
+      const bundled: string[] = pkg.bundledDependencies || pkg.bundleDependencies || [];
 
       const loadDependencies = async (deps: { [name: string]: string }) => {
         for (const name of Object.keys(deps || {})) {

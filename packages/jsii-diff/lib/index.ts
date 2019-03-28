@@ -1,7 +1,10 @@
 import reflect = require('jsii-reflect');
+import log4js = require('log4js');
 import { compareClass, compareInterface } from './classes-ifaces';
 import { compareEnum } from './enums';
-import { describeType, Mismatches, shouldInspect } from './types';
+import { ComparisonContext, describeType, shouldInspect } from './types';
+
+const LOG = log4js.getLogger('jsii-diff');
 
 /**
  * Compare two assemblies
@@ -11,44 +14,42 @@ import { describeType, Mismatches, shouldInspect } from './types';
  * item whether it's still available and has the same shape (or
  * bigger) in the new API.
  */
-export function compareAssemblies(original: reflect.Assembly, updated: reflect.Assembly): Mismatches {
-  const ret = new Mismatches();
-
-  compareClasses(original, updated, ret);
-  compareInterfaces(original, updated, ret);
-  compareEnums(original, updated, ret);
-
-  return ret;
+export function compareAssemblies(original: reflect.Assembly, updated: reflect.Assembly, context: ComparisonContext) {
+  compareClasses(original, updated, context);
+  compareInterfaces(original, updated, context);
+  compareEnums(original, updated, context);
 }
 
-export function compareClasses(original: reflect.Assembly, updated: reflect.Assembly, mismatches: Mismatches) {
-  for (const [origClass, updatedClass] of typePairs(original.classes, updated, mismatches)) {
-    compareClass(origClass, updatedClass, mismatches);
+export function compareClasses(original: reflect.Assembly, updated: reflect.Assembly, context: ComparisonContext) {
+  for (const [origClass, updatedClass] of typePairs(original.classes, updated, context)) {
+    compareClass(origClass, updatedClass, context);
   }
 }
 
-export function compareInterfaces(original: reflect.Assembly, updated: reflect.Assembly, mismatches: Mismatches) {
-  for (const [origIface, updatedIface] of typePairs(original.interfaces, updated, mismatches)) {
-    compareInterface(origIface, updatedIface, mismatches);
+export function compareInterfaces(original: reflect.Assembly, updated: reflect.Assembly, context: ComparisonContext) {
+  for (const [origIface, updatedIface] of typePairs(original.interfaces, updated, context)) {
+    compareInterface(origIface, updatedIface, context);
   }
 }
 
-export function compareEnums(original: reflect.Assembly, updated: reflect.Assembly, mismatches: Mismatches) {
-  for (const [origEnum, updatedEnum] of typePairs(original.enums, updated, mismatches)) {
-    compareEnum(origEnum, updatedEnum, mismatches);
+export function compareEnums(original: reflect.Assembly, updated: reflect.Assembly, context: ComparisonContext) {
+  for (const [origEnum, updatedEnum] of typePairs(original.enums, updated, context)) {
+    compareEnum(origEnum, updatedEnum, context);
   }
 }
 
-function* typePairs<T extends reflect.Type>(xs: T[], updatedAssembly: reflect.Assembly, mismatches: Mismatches): IterableIterator<[T, T]> {
-  for (const origType of xs.filter(shouldInspect)) {
+function* typePairs<T extends reflect.Type>(xs: T[], updatedAssembly: reflect.Assembly, context: ComparisonContext): IterableIterator<[T, T]> {
+  for (const origType of xs.filter(shouldInspect(context))) {
+    LOG.trace(origType.fqn);
+
     const updatedType = updatedAssembly.tryFindType(origType.fqn);
     if (!updatedType) {
-      mismatches.report(origType, 'has been removed');
+      context.mismatches.report(origType, 'has been removed');
       continue;
     }
 
     if (describeType(origType) !== describeType(updatedType)) {
-      mismatches.report(origType, `has been turned into a ${describeType(updatedType)}`);
+      context.mismatches.report(origType, `has been turned into a ${describeType(updatedType)}`);
       continue;
     }
 

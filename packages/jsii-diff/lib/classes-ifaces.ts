@@ -1,5 +1,8 @@
 import reflect = require('jsii-reflect');
-import { Mismatches, shouldInspect } from './types';
+import log4js = require('log4js');
+import { ComparisonContext, shouldInspect } from './types';
+
+const LOG = log4js.getLogger('jsii-diff');
 
 /**
  * Compare two class types
@@ -7,38 +10,38 @@ import { Mismatches, shouldInspect } from './types';
  * We require that all stable properties and methods on the original are
  * present on the new type, and that they match in turn.
  */
-export function compareClass(original: reflect.ClassType, updated: reflect.ClassType, mismatches: Mismatches) {
+export function compareClass(original: reflect.ClassType, updated: reflect.ClassType, context: ComparisonContext) {
   if (updated.abstract && !original.abstract) {
-    mismatches.report(original, 'has gone from non-abstract to abstract');
+    context.mismatches.report(original, 'has gone from non-abstract to abstract');
   }
 
-  for (const [origMethod, updatedMethod] of memberPairs(original, original.methods, updated, mismatches)) {
-    compareMethod(original, origMethod, updatedMethod, mismatches);
+  for (const [origMethod, updatedMethod] of memberPairs(original, original.methods, updated, context)) {
+    compareMethod(original, origMethod, updatedMethod, context);
   }
 
-  for (const [origProp, updatedProp] of memberPairs(original, original.properties, updated, mismatches)) {
-    compareProperty(original, origProp, updatedProp, mismatches);
-  }
-}
-
-export function compareInterface(original: reflect.InterfaceType, updated: reflect.InterfaceType, mismatches: Mismatches) {
-  for (const [origMethod, updatedMethod] of memberPairs(original, original.methods, updated, mismatches)) {
-    compareMethod(original, origMethod, updatedMethod, mismatches);
-  }
-
-  for (const [origProp, updatedProp] of memberPairs(original, original.properties, updated, mismatches)) {
-    compareProperty(original, origProp, updatedProp, mismatches);
+  for (const [origProp, updatedProp] of memberPairs(original, original.properties, updated, context)) {
+    compareProperty(original, origProp, updatedProp, context);
   }
 }
 
-function compareMethod(origClass: reflect.Type, original: reflect.Method, updated: reflect.Method, mismatches: Mismatches) {
+export function compareInterface(original: reflect.InterfaceType, updated: reflect.InterfaceType, context: ComparisonContext) {
+  for (const [origMethod, updatedMethod] of memberPairs(original, original.methods, updated, context)) {
+    compareMethod(original, origMethod, updatedMethod, context);
+  }
+
+  for (const [origProp, updatedProp] of memberPairs(original, original.properties, updated, context)) {
+    compareProperty(original, origProp, updatedProp, context);
+  }
+}
+
+function compareMethod(origClass: reflect.Type, original: reflect.Method, updated: reflect.Method, context: ComparisonContext) {
   if (original.static !== updated.static) {
     // tslint:disable-next-line:max-line-length
-    mismatches.report(origClass, `method ${original.name} was ${original.static ? 'static' : 'not static'}, is now ${updated.static ? 'static' : 'not static'}.`);
+    context.mismatches.report(origClass, `method ${original.name} was ${original.static ? 'static' : 'not static'}, is now ${updated.static ? 'static' : 'not static'}.`);
   }
 
   if (!isStrengtheningPostCondition(original.returns, updated.returns)) {
-    mismatches.report(origClass, `method ${original.name} used to return ${original.returns}, is now ${updated.returns}.`);
+    context.mismatches.report(origClass, `method ${original.name} used to return ${original.returns}, is now ${updated.returns}.`);
   }
 
   const updatedParams = updated.parameters;
@@ -46,13 +49,13 @@ function compareMethod(origClass: reflect.Type, original: reflect.Method, update
     // Find the matching parameter
     const updatedParam = findParam(updatedParams, i);
     if (updatedParam === undefined) {
-      mismatches.report(origClass, `method ${original.name}, argument ${i + 1} (${param.name}) not accepted anymore.`);
+      context.mismatches.report(origClass, `method ${original.name}, argument ${i + 1} (${param.name}) not accepted anymore.`);
       return;
     }
 
     if (!isWeakeningPreCondition(param.type, updatedParam.type)) {
       // tslint:disable-next-line:max-line-length
-      mismatches.report(origClass, `method ${original.name}, argument ${i + 1} (${param.name}) used to be of type ${param.type}, is now ${updatedParam.type}`);
+      context.mismatches.report(origClass, `method ${original.name}, argument ${i + 1} (${param.name}) used to be of type ${param.type}, is now ${updatedParam.type}`);
       return;
     }
   });
@@ -70,32 +73,35 @@ function findParam(parameters: reflect.Parameter[], i: number): reflect.Paramete
   return undefined;
 }
 
-function compareProperty(origClass: reflect.Type, original: reflect.Property, updated: reflect.Property, mismatches: Mismatches) {
+function compareProperty(origClass: reflect.Type, original: reflect.Property, updated: reflect.Property, context: ComparisonContext) {
   if (original.static !== updated.static) {
     // tslint:disable-next-line:max-line-length
-    mismatches.report(origClass, `property ${original.name} was ${original.static ? 'static' : 'not static'}, is now ${updated.static ? 'static' : 'not static'}`);
+    context.mismatches.report(origClass, `property ${original.name} was ${original.static ? 'static' : 'not static'}, is now ${updated.static ? 'static' : 'not static'}`);
   }
 
   if (!isStrengtheningPostCondition(original.type, updated.type)) {
-    mismatches.report(origClass, `property ${original.name} used to be of type ${original.type}, is now ${updated.type}`);
+    context.mismatches.report(origClass, `property ${original.name} used to be of type ${original.type}, is now ${updated.type}`);
   }
 
   if (updated.immutable && !original.immutable) {
-    mismatches.report(origClass, `property ${original.name} used to be mutable, is now immutable`);
+    context.mismatches.report(origClass, `property ${original.name} used to be mutable, is now immutable`);
   }
 }
 
 // tslint:disable-next-line:max-line-length
-function* memberPairs<T extends reflect.TypeMember>(origClass: reflect.ClassType | reflect.InterfaceType, xs: T[], updatedClass: reflect.ClassType | reflect.InterfaceType, mismatches: Mismatches): IterableIterator<[T, T]> {
-  for (const origMember of xs.filter(shouldInspect)) {
+function* memberPairs<T extends reflect.TypeMember>(origClass: reflect.ClassType | reflect.InterfaceType, xs: T[], updatedClass: reflect.ClassType | reflect.InterfaceType, context: ComparisonContext): IterableIterator<[T, T]> {
+  for (const origMember of xs.filter(shouldInspect(context))) {
+    LOG.trace(`${origClass.fqn}#${origMember.name}`);
+
     const updatedMember = updatedClass.members.find(m => m.name === origMember.name);
     if (!updatedMember) {
-      mismatches.report(origClass, `member ${origMember.name} has been removed`);
+      context.mismatches.report(origClass, `member ${origMember.name} has been removed`);
       continue;
     }
 
     if (origMember.kind !== updatedMember.kind) {
-      mismatches.report(origClass, `member ${origMember.name} changed from ${origMember.kind} to ${updatedMember.kind}`);
+      context.mismatches.report(origClass, `member ${origMember.name} changed from ${origMember.kind} to ${updatedMember.kind}`);
+      continue;
     }
 
     yield [origMember, updatedMember as T]; // Trust me I know what I'm doing
@@ -148,8 +154,11 @@ function isSuperType(a: reflect.TypeReference, b: reflect.TypeReference, updated
   }
 
   if (a.fqn === undefined) {
-    throw new Error('I was expecting a named type here');
+    throw new Error(`I was expecting a named type, got '${a}'`);
   }
+
+  // Named type vs a non-named type
+  if (b.fqn === undefined) { return false; }
 
   // At this point we definitely have a named type
   // Easy shortcut in case we don't have the type definition available, if
@@ -158,9 +167,11 @@ function isSuperType(a: reflect.TypeReference, b: reflect.TypeReference, updated
 
   // We now need to do subtype analysis on the
   // Find A in B's typesystem, and see if B is a subtype of A'
-  const B = updatedSystem.findFqn(b.fqn!);
+  const B = updatedSystem.tryFindFqn(b.fqn!);
   const A = updatedSystem.tryFindFqn(a.fqn);
-  if (!B || !A) { return false; } // Can't find the types, so not assignable
+
+  if (!B) { LOG.warn(`Could not find type ${b.fqn} in new assembly`); return false; }
+  if (!A) { LOG.warn(`Could not find type ${a.fqn} in new assembly`); return false; }
 
   return B.extends(A);
 }

@@ -1,6 +1,20 @@
 import reflect = require('jsii-reflect');
 import spec = require('jsii-spec');
 
+export interface ComparisonContext {
+  /**
+   * Whether to treat API elements as stable if unmarked
+   *
+   * @default false
+   */
+  defaultStable?: boolean;
+
+  /**
+   * Where to report errors
+   */
+  mismatches: Mismatches;
+}
+
 export interface ApiMismatch {
   message: string;
   type: reflect.Type;
@@ -31,6 +45,6 @@ export function describeType(type: reflect.Type) {
   return 'TYPE';
 }
 
-export function shouldInspect(x: reflect.Documentable) {
-  return x.docs.stability === spec.Stability.Stable;
+export function shouldInspect(context: ComparisonContext): (x: reflect.Documentable) => boolean {
+  return x => x.docs.stability === spec.Stability.Stable || (x.docs.stability === undefined && !!context.defaultStable);
 }
