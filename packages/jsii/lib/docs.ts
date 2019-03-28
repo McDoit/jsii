@@ -73,6 +73,10 @@ export function parseSymbolDocumentation(comments: string | undefined, tags: ts.
     diagnostics.push('Element is marked both @experimental and @stable.');
   }
 
+  if (docs.deprecated !== undefined && docs.deprecated.trim() === '') {
+    diagnostics.push('@deprecated tag needs a reason and/or suggested alternatives.');
+  }
+
   if (experimental) { docs.stability = spec.Stability.Experimental; }
   if (stable) { docs.stability = spec.Stability.Stable; }
 

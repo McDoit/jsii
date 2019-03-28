@@ -2,7 +2,14 @@ import jsii = require('jsii-spec');
 import { TypeSystem } from './type-system';
 
 export interface Documentable {
-  docs?: Docs;
+  docs: Docs;
+
+  /**
+   * Return the reason for deprecation of this type
+   */
+  deprecationReason: string | undefined;
+  isDeprecated: boolean;
+  stability: jsii.Stability | undefined;
 }
 
 export class Docs {

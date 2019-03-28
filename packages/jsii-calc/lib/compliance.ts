@@ -626,15 +626,15 @@ export class VariadicMethod {
     private readonly prefix: number[];
 
     /**
-     * @param prefix - a prefix that will be use for all values returned by `#asArray`.
+     * @param prefix a prefix that will be use for all values returned by `#asArray`.
      */
     constructor(...prefix: number[]) {
         this.prefix = prefix;
     }
 
     /**
-     * @param first  - the first element of the array to be returned (after the `prefix` provided at construction time).
-     * @param others - other elements to be included in the array.
+     * @param first  the first element of the array to be returned (after the `prefix` provided at construction time).
+     * @param others other elements to be included in the array.
      */
     public asArray(first: number, ...others: number[]): number[] {
         return [...this.prefix, first, ...others];
@@ -647,7 +647,7 @@ export class Statics {
 
     /**
      * Jsdocs for static method
-     * @param name - The name of the person to say hello to
+     * @param name The name of the person to say hello to
      */
     public static staticMethod(name: string) {
         return `hello ,${name}!`;

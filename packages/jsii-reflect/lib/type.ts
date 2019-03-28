@@ -115,4 +115,15 @@ export abstract class Type implements Documentable {
     }
     return [];
   }
+
+  /**
+   * Return the reason for deprecation of this type
+   */
+  public get deprecationReason(): string | undefined {
+    return this.spec.docs && this.spec.docs.deprecated;
+  }
+
+  public get isDeprecated(): boolean {
+    return this.deprecationReason !== undefined;
+  }
 }

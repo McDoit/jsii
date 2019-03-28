@@ -97,4 +97,18 @@ export class Method implements Documentable, Overridable {
   public get docs(): Docs {
     return new Docs(this.system, this, this.spec.docs);
   }
+
+  /**
+   * Return the reason for deprecation of this type
+   */
+  public get deprecationReason(): string | undefined {
+    if (this.spec.docs && this.spec.docs.deprecated !== undefined) { return this.spec.docs.deprecated; }
+    const parentDepr = this.parentType.deprecationReason;
+    if (parentDepr !== undefined) { return `${parentDepr} (from ${this.parentType.name})`; }
+    return undefined;
+  }
+
+  public get isDeprecated(): boolean {
+    return this.deprecationReason !== undefined;
+  }
 }

@@ -147,6 +147,17 @@ describe('Type', () => {
    });
 });
 
+describe('@deprecated', () => {
+  test('can be read on an item', () => {
+    const klass = typesys.findClass('jsii-calc.Old');
+
+    klass.
+  });
+
+  test('is inherited from class', () => {
+  });
+});
+
 function resolveModuleDir(name: string) {
   return path.dirname(require.resolve(`${name}/package.json`));
 }

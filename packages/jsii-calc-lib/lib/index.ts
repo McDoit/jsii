@@ -30,7 +30,7 @@ export interface IDoublable {
 export class Number extends Value implements IDoublable {
     /**
      * Creates a Number object.
-     * @param value - The number.
+     * @param value The number.
      */
     constructor(readonly value: number) {
         super();

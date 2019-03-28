@@ -38,8 +38,8 @@ export interface IFriendlyRandomGenerator extends IRandomNumberGenerator, IFrien
 export abstract class BinaryOperation extends Operation implements IFriendly {
     /**
      * Creates a BinaryOperation
-     * @param lhs - Left-hand side operand
-     * @param rhs - Right-hand side operand
+     * @param lhs Left-hand side operand
+     * @param rhs Right-hand side operand
      */
     constructor(readonly lhs: Value, readonly rhs: Value) {
         super();
@@ -213,8 +213,8 @@ export class Power extends composition.CompositeOperation {
 
     /**
      * Creates a Power operation.
-     * @param base - The base of the power
-     * @param pow - The number of times to multiply
+     * @param base The base of the power
+     * @param pow The number of times to multiply
      */
     constructor(readonly base: Value, readonly pow: Value) {
         super();
@@ -244,7 +244,7 @@ export class Calculator extends composition.CompositeOperation {
 
     /**
      * Creates a Calculator object.
-     * @param props - Initialization properties.
+     * @param props Initialization properties.
      */
     constructor(props?: CalculatorProps) {
         super();
