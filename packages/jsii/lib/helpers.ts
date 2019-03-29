@@ -1,5 +1,9 @@
 /**
- * Test utilities
+ * Helper routines for use with the jsii compiler
+ *
+ * These are mostly used for testing, but all projects that need to exercise
+ * the JSII compiler to test something need to share this code, so might as
+ * well put it in one reusable place.
  */
 
 import fs = require('fs-extra');
@@ -7,13 +11,15 @@ import spec = require('jsii-spec');
 import os = require('os');
 import path = require('path');
 import { DiagnosticCategory } from 'typescript';
-import { Compiler } from '../lib/compiler';
-import { loadProjectInfo, ProjectInfo } from '../lib/project-info';
+import { Compiler } from './compiler';
+import { loadProjectInfo, ProjectInfo } from './project-info';
 
 /**
  * Compile a piece of source and return the JSII assembly for it
+ *
+ * Only usable for trivial cases and tests.
  */
-export async function compile(source: string): Promise<spec.Assembly> {
+export async function sourceToAssemblyHelper(source: string): Promise<spec.Assembly> {
   // Easiest way to get the source into the compiler is to write it to disk somewhere.
   // I guess we could make an in-memory compiler host but that seems like work...
   return await inTempDir(async () => {

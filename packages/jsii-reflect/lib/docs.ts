@@ -50,4 +50,8 @@ export class Docs {
     if (this.parentDocs) { return this.parentDocs.stability; }
     return undefined;
   }
+
+  public customTag(tag: string): string | undefined {
+    return this.docs.custom && this.docs.custom[tag];
+  }
 }

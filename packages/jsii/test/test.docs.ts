@@ -1,6 +1,6 @@
 import spec = require('jsii-spec');
 import { Test } from 'nodeunit';
-import { compile } from './util';
+import { sourceToAssemblyHelper as compile } from '../lib';
 
 export = {
 

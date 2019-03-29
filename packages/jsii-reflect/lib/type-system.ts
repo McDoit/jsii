@@ -88,9 +88,15 @@ export class TypeSystem {
 
   public async loadFile(file: string, isRoot = true) {
     const spec = JSON.parse((await readFile(file)).toString());
-    let asm = this._assemblyLookup[spec.name];
-    if (!asm) {
-      asm = new Assembly(this, spec);
+    return this.addAssembly(new Assembly(this, spec), isRoot);
+  }
+
+  public addAssembly(asm: Assembly, isRoot = true) {
+    if (asm.system !== this) {
+      throw new Error('Assembly has been created for different typesystem');
+    }
+
+    if (!this._assemblyLookup[asm.name]) {
       this._assemblyLookup[asm.name] = asm;
       this.assemblies.push(asm);
     }

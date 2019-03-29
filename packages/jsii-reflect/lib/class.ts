@@ -6,6 +6,7 @@ import { Property } from './property';
 import { Type } from './type';
 import { TypeMember } from './type-member';
 import { TypeSystem } from './type-system';
+import { indexBy } from './util';
 
 export class ClassType extends Type {
   constructor(
@@ -48,7 +49,7 @@ export class ClassType extends Type {
    * You can use `getProperties(true)` to list all properties including inherited.
    */
   public get properties(): Property[] {
-    return this.getProperties(false);
+    return Object.values(this.getProperties(false));
   }
 
   /**
@@ -57,7 +58,7 @@ export class ClassType extends Type {
    * You can use `getMethods(true)` to list all methods including inherited.
    */
   public get methods(): Method[] {
-    return this.getMethods(false);
+    return Object.values(this.getMethods(false));
   }
 
   /**
@@ -92,30 +93,22 @@ export class ClassType extends Type {
    * Lists all properties in this class.
    * @param inherited include all properties inherited from base classes (default: false)
    */
-  public getProperties(inherited = false) {
-    const out = new Array<Property>();
-    if (inherited && this.base) {
-      out.push(...this.base.getProperties(inherited));
-    }
-    if (this.classSpec.properties) {
-      out.push(...this.classSpec.properties.map(p => new Property(this.system, this.assembly, this, p)));
-    }
-    return out;
+  public getProperties(inherited = false): {[name: string]: Property} {
+    const base = inherited && this.base ? this.base.getProperties(inherited) : {};
+    return Object.assign(base, indexBy(
+      (this.classSpec.properties || []).map(p => new Property(this.system, this.assembly, this, p)),
+      p => p.name));
   }
 
   /**
    * List all methods in this class.
    * @param inherited include all methods inherited from base classes (default: false)
    */
-  public getMethods(inherited = false) {
-    const out = new Array<Method>();
-    if (inherited && this.base) {
-      out.push(...this.base.getMethods(inherited));
-    }
-    if (this.classSpec.methods) {
-      out.push(...this.classSpec.methods.map(m => new Method(this.system, this.assembly, this, m)));
-    }
-    return out;
+  public getMethods(inherited = false): {[name: string]: Method} {
+    const base = inherited && this.base ? this.base.getMethods(inherited) : {};
+    return Object.assign(base, indexBy(
+      (this.classSpec.methods || []).map(m => new Method(this.system, this.assembly, this, m)),
+      m => m.name));
   }
 
   /**
@@ -133,12 +126,15 @@ export class ClassType extends Type {
     return out;
   }
 
-  public getMembers(inherited = false): TypeMember[] {
-    return (this.getMethods(inherited) as TypeMember[]).concat(this.getProperties(inherited));
+  public getMembers(inherited = false): {[name: string]: TypeMember} {
+    return Object.assign(
+      this.getMethods(inherited),
+      this.getProperties(inherited)
+    );
   }
 
   public get members(): TypeMember[] {
-    return this.getMembers(false);
+    return Object.values(this.getMembers(false));
   }
 
   public isClassType() {

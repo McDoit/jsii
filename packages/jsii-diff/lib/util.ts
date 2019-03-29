@@ -61,3 +61,9 @@ function waitForStream(stream: NodeJS.WritableStream): Promise<void> {
     stream.on('finish', resolve);
   });
 }
+
+export function flatMap<T, U>(xs: T[], fn: (x: T) => U[]): U[] {
+  const ret = new Array<U>();
+  for (const x of xs) { ret.push(...fn(x)); }
+  return ret;
+}

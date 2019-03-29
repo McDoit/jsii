@@ -25,6 +25,7 @@
         "@types/tar-fs": "^1.16.1",
         "@types/log4js": "^2.3.5",
         "jsii-build-tools": "^0.8.0",
+        "jsii": "^0.8.0",
         "nodeunit": "^0.11.3",
         "nyc": "^13.3.0"
     },

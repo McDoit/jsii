@@ -27,7 +27,7 @@ test('TypeSystem.classes lists all the classes in the typesystem', () => {
 test('findClass', async () => {
   const calc = typesys.findClass('jsii-calc.Calculator');
   const actual = new Array<string>();
-  calc.getMethods(/* inherited */ true).forEach(method => {
+  Object.values(calc.getMethods(/* inherited */ true)).forEach(method => {
     actual.push(`${method.name} from ${method.parentType.name}`);
   });
 
@@ -169,13 +169,13 @@ describe('Stability', () => {
 
   test('is inherited from class', () => {
     const klass = typesys.findClass('jsii-calc.DocumentedClass');
-    const method = klass.getMethods().find(m => m.name === 'greet')!;
+    const method = klass.getMethods().greet;
     expect(method.docs.stability).toBe(spec.Stability.Stable);
   });
 
   test('can be overridden from class', () => {
     const klass = typesys.findClass('jsii-calc.DocumentedClass');
-    const method = klass.getMethods().find(m => m.name === 'hola')!;
+    const method = klass.getMethods().hola;
     expect(method.docs.stability).toBe(spec.Stability.Experimental);
   });
 });
