@@ -804,7 +804,7 @@ class JavaGenerator extends Generator {
         // emit $jsii$toJson which will be called to serialize this object when sent to JS
         this.code.line();
         this.code.openBlock(`public com.fasterxml.jackson.databind.JsonNode $jsii$toJson()`);
-        this.code.line(`software.amazon.jsii.JsiiObjectMapper om = software.amazon.jsii.JsiiObjectMapper.instance;`);
+        this.code.line(`com.fasterxml.jackson.databind.ObjectMapper om = software.amazon.jsii.JsiiObjectMapper.INSTANCE;`);
         // tslint:disable-next-line:max-line-length
         this.code.line(`com.fasterxml.jackson.databind.node.ObjectNode obj = com.fasterxml.jackson.databind.node.JsonNodeFactory.instance.objectNode();`);
 
@@ -910,7 +910,7 @@ class JavaGenerator extends Generator {
             if (method.parameters) {
                 for (const param of method.parameters) {
                     if (param.docs && param.docs.summary) {
-                        this.code.line(` * @param ${param.name} ${param.docs.summary}`);
+                        emit(`@param ${param.name} ${param.docs.summary}`);
                     }
                 }
             }

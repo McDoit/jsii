@@ -8,7 +8,7 @@
     "url": "https://aws.amazon.com"
   },
   "bundled": {
-    "jsii-calc-bundled": "^0.8.0"
+    "jsii-calc-bundled": "^0.8.2"
   },
   "contributors": [
     {
@@ -58,7 +58,7 @@
               "module": "scope.jsii_calc_base_of_base"
             }
           },
-          "version": "0.8.0"
+          "version": "0.8.2"
         }
       },
       "peer": true,
@@ -82,7 +82,31 @@
           "module": "scope.jsii_calc_base"
         }
       },
-      "version": "0.8.0"
+      "version": "0.8.2"
+    },
+    "@scope/jsii-calc-base-of-base": {
+      "peer": true,
+      "targets": {
+        "dotnet": {
+          "namespace": "Amazon.JSII.Tests.CalculatorNamespace.BaseOfBaseNamespace",
+          "packageId": "Amazon.JSII.Tests.CalculatorPackageId.BaseOfBasePackageId"
+        },
+        "java": {
+          "maven": {
+            "artifactId": "calculator-base-of-base",
+            "groupId": "software.amazon.jsii.tests"
+          },
+          "package": "software.amazon.jsii.tests.calculator.baseofbase"
+        },
+        "js": {
+          "npm": "@scope/jsii-calc-base-of-base"
+        },
+        "python": {
+          "distName": "scope.jsii-calc-base-of-base",
+          "module": "scope.jsii_calc_base_of_base"
+        }
+      },
+      "version": "0.8.2"
     },
     "@scope/jsii-calc-lib": {
       "dependencies": {
@@ -110,7 +134,7 @@
                   "module": "scope.jsii_calc_base_of_base"
                 }
               },
-              "version": "0.8.0"
+              "version": "0.8.2"
             }
           },
           "peer": true,
@@ -134,7 +158,7 @@
               "module": "scope.jsii_calc_base"
             }
           },
-          "version": "0.8.0"
+          "version": "0.8.2"
         }
       },
       "peer": true,
@@ -158,7 +182,7 @@
           "module": "scope.jsii_calc_lib"
         }
       },
-      "version": "0.8.0"
+      "version": "0.8.2"
     }
   },
   "description": "A simple calcuator built on JSII.",
@@ -304,17 +328,29 @@
       "base": {
         "fqn": "jsii-calc.BinaryOperation"
       },
+      "docs": {
+        "summary": "The \"+\" binary operation."
+      },
       "fqn": "jsii-calc.Add",
       "initializer": {
+        "docs": {
+          "summary": "Creates a BinaryOperation."
+        },
         "initializer": true,
         "parameters": [
           {
+            "docs": {
+              "summary": "Left-hand side operand."
+            },
             "name": "lhs",
             "type": {
               "fqn": "@scope/jsii-calc-lib.Value"
             }
           },
           {
+            "docs": {
+              "summary": "Right-hand side operand."
+            },
             "name": "rhs",
             "type": {
               "fqn": "@scope/jsii-calc-lib.Value"
@@ -325,6 +361,9 @@
       "kind": "class",
       "methods": [
         {
+          "docs": {
+            "summary": "String representation of the value."
+          },
           "name": "toString",
           "overrides": {
             "fqn": "@scope/jsii-calc-lib.Operation"
@@ -337,6 +376,9 @@
       "name": "Add",
       "properties": [
         {
+          "docs": {
+            "summary": "The value."
+          },
           "immutable": true,
           "name": "value",
           "overrides": {
@@ -350,12 +392,33 @@
     },
     "jsii-calc.AllTypes": {
       "assembly": "jsii-calc",
+      "docs": {
+        "remarks": "The setters will validate\nthat the value set is of the expected type and throw otherwise.",
+        "summary": "This class includes property for all types supported by jsii."
+      },
       "fqn": "jsii-calc.AllTypes",
       "initializer": {
         "initializer": true
       },
       "kind": "class",
       "methods": [
+        {
+          "name": "anyIn",
+          "parameters": [
+            {
+              "name": "inp",
+              "type": {
+                "primitive": "any"
+              }
+            }
+          ]
+        },
+        {
+          "name": "anyOut",
+          "returns": {
+            "primitive": "any"
+          }
+        },
         {
           "name": "enumMethod",
           "parameters": [
@@ -477,7 +540,7 @@
                       "primitive": "number"
                     },
                     {
-                      "fqn": "jsii-calc.composition.CompositeOperation"
+                      "fqn": "@scope/jsii-calc-lib.Value"
                     }
                   ]
                 }
@@ -610,6 +673,10 @@
           ]
         },
         {
+          "docs": {
+            "remarks": "..) is okay.",
+            "summary": "getXxx() is not allowed (see negatives), but getXxx(a, ."
+          },
           "name": "getFoo",
           "parameters": [
             {
@@ -647,6 +714,10 @@
           ]
         },
         {
+          "docs": {
+            "remarks": "..) is okay.",
+            "summary": "setFoo(x) is not allowed (see negatives), but setXxx(a, b, ."
+          },
           "name": "setFoo",
           "parameters": [
             {
@@ -682,6 +753,9 @@
           }
         },
         {
+          "docs": {
+            "summary": "Just calls \"overrideMeToo\"."
+          },
           "name": "callMe2",
           "returns": {
             "primitive": "number",
@@ -689,6 +763,10 @@
           }
         },
         {
+          "docs": {
+            "remarks": "This is a \"double promise\" situation, which\nmeans that callbacks are not going to be available immediate, but only\nafter an \"immediates\" cycle.",
+            "summary": "This method calls the \"callMe\" async method indirectly, which will then invoke a virtual method."
+          },
           "name": "callMeDoublePromise",
           "returns": {
             "primitive": "number",
@@ -749,17 +827,29 @@
       "base": {
         "fqn": "@scope/jsii-calc-lib.Operation"
       },
+      "docs": {
+        "summary": "Represents an operation with two operands."
+      },
       "fqn": "jsii-calc.BinaryOperation",
       "initializer": {
+        "docs": {
+          "summary": "Creates a BinaryOperation."
+        },
         "initializer": true,
         "parameters": [
           {
+            "docs": {
+              "summary": "Left-hand side operand."
+            },
             "name": "lhs",
             "type": {
               "fqn": "@scope/jsii-calc-lib.Value"
             }
           },
           {
+            "docs": {
+              "summary": "Right-hand side operand."
+            },
             "name": "rhs",
             "type": {
               "fqn": "@scope/jsii-calc-lib.Value"
@@ -775,6 +865,9 @@
       "kind": "class",
       "methods": [
         {
+          "docs": {
+            "summary": "Say hello!."
+          },
           "name": "hello",
           "overrides": {
             "fqn": "@scope/jsii-calc-lib.IFriendly"
@@ -787,6 +880,9 @@
       "name": "BinaryOperation",
       "properties": [
         {
+          "docs": {
+            "summary": "Left-hand side operand."
+          },
           "immutable": true,
           "name": "lhs",
           "type": {
@@ -794,6 +890,9 @@
           }
         },
         {
+          "docs": {
+            "summary": "Right-hand side operand."
+          },
           "immutable": true,
           "name": "rhs",
           "type": {
@@ -807,11 +906,20 @@
       "base": {
         "fqn": "jsii-calc.composition.CompositeOperation"
       },
+      "docs": {
+        "summary": "A calculator which maintains a current value and allows adding operations."
+      },
       "fqn": "jsii-calc.Calculator",
       "initializer": {
+        "docs": {
+          "summary": "Creates a Calculator object."
+        },
         "initializer": true,
         "parameters": [
           {
+            "docs": {
+              "summary": "Initialization properties."
+            },
             "name": "props",
             "type": {
               "fqn": "jsii-calc.CalculatorProps",
@@ -823,6 +931,9 @@
       "kind": "class",
       "methods": [
         {
+          "docs": {
+            "summary": "Adds a number to the current value."
+          },
           "name": "add",
           "parameters": [
             {
@@ -834,6 +945,9 @@
           ]
         },
         {
+          "docs": {
+            "summary": "Multiplies the current value by a number."
+          },
           "name": "mul",
           "parameters": [
             {
@@ -845,9 +959,15 @@
           ]
         },
         {
+          "docs": {
+            "summary": "Negates the current value."
+          },
           "name": "neg"
         },
         {
+          "docs": {
+            "summary": "Raises the current value by a power."
+          },
           "name": "pow",
           "parameters": [
             {
@@ -859,6 +979,9 @@
           ]
         },
         {
+          "docs": {
+            "summary": "Returns teh value of the union property (if defined)."
+          },
           "name": "readUnionValue",
           "returns": {
             "primitive": "number"
@@ -868,6 +991,9 @@
       "name": "Calculator",
       "properties": [
         {
+          "docs": {
+            "summary": "Returns the expression."
+          },
           "immutable": true,
           "name": "expression",
           "overrides": {
@@ -878,6 +1004,9 @@
           }
         },
         {
+          "docs": {
+            "summary": "A log of all operations."
+          },
           "immutable": true,
           "name": "operationsLog",
           "type": {
@@ -890,6 +1019,9 @@
           }
         },
         {
+          "docs": {
+            "summary": "A map of per operation name of all operations performed."
+          },
           "immutable": true,
           "name": "operationsMap",
           "type": {
@@ -907,12 +1039,18 @@
           }
         },
         {
+          "docs": {
+            "summary": "The current value."
+          },
           "name": "curr",
           "type": {
             "fqn": "@scope/jsii-calc-lib.Value"
           }
         },
         {
+          "docs": {
+            "summary": "The maximum value allows in this calculator."
+          },
           "name": "maxValue",
           "type": {
             "optional": true,
@@ -920,6 +1058,9 @@
           }
         },
         {
+          "docs": {
+            "summary": "Example of a property that accepts a union of types."
+          },
           "name": "unionProperty",
           "type": {
             "optional": true,
@@ -943,6 +1084,9 @@
     "jsii-calc.CalculatorProps": {
       "assembly": "jsii-calc",
       "datatype": true,
+      "docs": {
+        "summary": "Properties for Calculator."
+      },
       "fqn": "jsii-calc.CalculatorProps",
       "kind": "interface",
       "name": "CalculatorProps",
@@ -1078,6 +1222,9 @@
     },
     "jsii-calc.ClassWithPrivateConstructorAndAutomaticProperties": {
       "assembly": "jsii-calc",
+      "docs": {
+        "summary": "Class that implements interface properties automatically, but using a private constructor."
+      },
       "fqn": "jsii-calc.ClassWithPrivateConstructorAndAutomaticProperties",
       "interfaces": [
         {
@@ -1131,6 +1278,23 @@
         }
       ]
     },
+    "jsii-calc.ConstructorPassesThisOut": {
+      "assembly": "jsii-calc",
+      "fqn": "jsii-calc.ConstructorPassesThisOut",
+      "initializer": {
+        "initializer": true,
+        "parameters": [
+          {
+            "name": "consumer",
+            "type": {
+              "fqn": "jsii-calc.PartiallyInitializedThisConsumer"
+            }
+          }
+        ]
+      },
+      "kind": "class",
+      "name": "ConstructorPassesThisOut"
+    },
     "jsii-calc.Constructors": {
       "assembly": "jsii-calc",
       "fqn": "jsii-calc.Constructors",
@@ -1139,6 +1303,37 @@
       },
       "kind": "class",
       "methods": [
+        {
+          "name": "hiddenInterface",
+          "returns": {
+            "fqn": "jsii-calc.IPublicInterface"
+          },
+          "static": true
+        },
+        {
+          "name": "hiddenInterfaces",
+          "returns": {
+            "collection": {
+              "elementtype": {
+                "fqn": "jsii-calc.IPublicInterface"
+              },
+              "kind": "array"
+            }
+          },
+          "static": true
+        },
+        {
+          "name": "hiddenSubInterfaces",
+          "returns": {
+            "collection": {
+              "elementtype": {
+                "fqn": "jsii-calc.IPublicInterface"
+              },
+              "kind": "array"
+            }
+          },
+          "static": true
+        },
         {
           "name": "makeClass",
           "returns": {
@@ -1150,6 +1345,25 @@
           "name": "makeInterface",
           "returns": {
             "fqn": "jsii-calc.IPublicInterface"
+          },
+          "static": true
+        },
+        {
+          "name": "makeInterface2",
+          "returns": {
+            "fqn": "jsii-calc.IPublicInterface2"
+          },
+          "static": true
+        },
+        {
+          "name": "makeInterfaces",
+          "returns": {
+            "collection": {
+              "elementtype": {
+                "fqn": "jsii-calc.IPublicInterface"
+              },
+              "kind": "array"
+            }
           },
           "static": true
         }
@@ -1285,6 +1499,9 @@
     "jsii-calc.DerivedStruct": {
       "assembly": "jsii-calc",
       "datatype": true,
+      "docs": {
+        "summary": "A struct which derives from another struct."
+      },
       "fqn": "jsii-calc.DerivedStruct",
       "interfaces": [
         {
@@ -1312,6 +1529,9 @@
         },
         {
           "abstract": true,
+          "docs": {
+            "summary": "An example of a non primitive property."
+          },
           "immutable": true,
           "name": "nonPrimitive",
           "type": {
@@ -1320,6 +1540,9 @@
         },
         {
           "abstract": true,
+          "docs": {
+            "summary": "This is optional."
+          },
           "immutable": true,
           "name": "anotherOptional",
           "type": {
@@ -1393,6 +1616,9 @@
     },
     "jsii-calc.DoNotRecognizeAnyAsOptional": {
       "assembly": "jsii-calc",
+      "docs": {
+        "summary": "jsii#284: do not recognize \"any\" as an optional argument."
+      },
       "fqn": "jsii-calc.DoNotRecognizeAnyAsOptional",
       "initializer": {
         "initializer": true
@@ -1429,6 +1655,11 @@
     },
     "jsii-calc.DocumentedClass": {
       "assembly": "jsii-calc",
+      "docs": {
+        "remarks": "This is the meat of the TSDoc comment. It may contain\nmultiple lines and multiple paragraphs.\n\nMultiple paragraphs are separated by an empty line.",
+        "stability": "stable",
+        "summary": "Here's the first line of the TSDoc comment."
+      },
       "fqn": "jsii-calc.DocumentedClass",
       "initializer": {
         "initializer": true
@@ -1436,9 +1667,17 @@
       "kind": "class",
       "methods": [
         {
+          "docs": {
+            "remarks": "This will print out a friendly greeting intended for\nthe indicated person.",
+            "returns": "A number that everyone knows very well",
+            "summary": "Greet the indicated person."
+          },
           "name": "greet",
           "parameters": [
             {
+              "docs": {
+                "summary": "The person to be greeted."
+              },
               "name": "greetee",
               "type": {
                 "fqn": "jsii-calc.Greetee",
@@ -1449,6 +1688,13 @@
           "returns": {
             "primitive": "number"
           }
+        },
+        {
+          "docs": {
+            "stability": "experimental",
+            "summary": "Say ¡Hola!."
+          },
+          "name": "hola"
         }
       ],
       "name": "DocumentedClass"
@@ -1501,6 +1747,9 @@
       "kind": "class",
       "methods": [
         {
+          "docs": {
+            "summary": "Say hello!."
+          },
           "name": "hello",
           "overrides": {
             "fqn": "@scope/jsii-calc-lib.IFriendly"
@@ -1510,6 +1759,9 @@
           }
         },
         {
+          "docs": {
+            "summary": "Returns another random number."
+          },
           "name": "next",
           "overrides": {
             "fqn": "jsii-calc.IRandomNumberGenerator"
@@ -1530,6 +1782,10 @@
       "kind": "class",
       "methods": [
         {
+          "docs": {
+            "remarks": "Used to check that undefined/null hash values\nare being erased when sending values from native code to JS.",
+            "summary": "Returns `true` if `key` is defined in `opts`."
+          },
           "name": "doesKeyExist",
           "parameters": [
             {
@@ -1551,6 +1807,9 @@
           "static": true
         },
         {
+          "docs": {
+            "summary": "We expect \"prop1\" to be erased."
+          },
           "name": "prop1IsNull",
           "returns": {
             "primitive": "any"
@@ -1558,6 +1817,9 @@
           "static": true
         },
         {
+          "docs": {
+            "summary": "We expect \"prop2\" to be erased."
+          },
           "name": "prop2IsUndefined",
           "returns": {
             "primitive": "any"
@@ -1668,6 +1930,9 @@
       "kind": "class",
       "methods": [
         {
+          "docs": {
+            "summary": "Accepts a struct of type DerivedStruct and returns a struct of type FirstStruct."
+          },
           "name": "derivedToFirst",
           "parameters": [
             {
@@ -1682,6 +1947,9 @@
           }
         },
         {
+          "docs": {
+            "summary": "Returns the boolean from a DerivedStruct struct."
+          },
           "name": "readDerivedNonPrimitive",
           "parameters": [
             {
@@ -1696,6 +1964,9 @@
           }
         },
         {
+          "docs": {
+            "summary": "Returns the \"anumber\" from a MyFirstStruct struct;."
+          },
           "name": "readFirstNumber",
           "parameters": [
             {
@@ -1724,12 +1995,19 @@
     "jsii-calc.Greetee": {
       "assembly": "jsii-calc",
       "datatype": true,
+      "docs": {
+        "summary": "These are some arguments you can pass to a method."
+      },
       "fqn": "jsii-calc.Greetee",
       "kind": "interface",
       "name": "Greetee",
       "properties": [
         {
           "abstract": true,
+          "docs": {
+            "default": "world",
+            "summary": "The name of the greetee."
+          },
           "immutable": true,
           "name": "name",
           "type": {
@@ -1781,6 +2059,9 @@
     },
     "jsii-calc.IFriendlier": {
       "assembly": "jsii-calc",
+      "docs": {
+        "summary": "Even friendlier classes can implement this interface."
+      },
       "fqn": "jsii-calc.IFriendlier",
       "interfaces": [
         {
@@ -1791,6 +2072,9 @@
       "methods": [
         {
           "abstract": true,
+          "docs": {
+            "summary": "Say farewell."
+          },
           "name": "farewell",
           "returns": {
             "primitive": "string"
@@ -1798,6 +2082,10 @@
         },
         {
           "abstract": true,
+          "docs": {
+            "returns": "A goodbye blessing.",
+            "summary": "Say goodbye."
+          },
           "name": "goodbye",
           "returns": {
             "primitive": "string"
@@ -1822,6 +2110,9 @@
     },
     "jsii-calc.IInterfaceThatShouldNotBeADataType": {
       "assembly": "jsii-calc",
+      "docs": {
+        "summary": "Even though this interface has only properties, it is disqualified from being a datatype because it inherits from an interface that is not a datatype."
+      },
       "fqn": "jsii-calc.IInterfaceThatShouldNotBeADataType",
       "interfaces": [
         {
@@ -1877,6 +2168,9 @@
     },
     "jsii-calc.IInterfaceWithOptionalMethodArguments": {
       "assembly": "jsii-calc",
+      "docs": {
+        "summary": "awslabs/jsii#175 Interface proxies (and builders) do not respect optional arguments in methods."
+      },
       "fqn": "jsii-calc.IInterfaceWithOptionalMethodArguments",
       "kind": "interface",
       "methods": [
@@ -2003,18 +2297,43 @@
       "methods": [
         {
           "abstract": true,
-          "name": "bye"
+          "name": "bye",
+          "returns": {
+            "primitive": "string"
+          }
         }
       ],
       "name": "IPublicInterface"
     },
+    "jsii-calc.IPublicInterface2": {
+      "assembly": "jsii-calc",
+      "fqn": "jsii-calc.IPublicInterface2",
+      "kind": "interface",
+      "methods": [
+        {
+          "abstract": true,
+          "name": "ciao",
+          "returns": {
+            "primitive": "string"
+          }
+        }
+      ],
+      "name": "IPublicInterface2"
+    },
     "jsii-calc.IRandomNumberGenerator": {
       "assembly": "jsii-calc",
+      "docs": {
+        "summary": "Generates random numbers."
+      },
       "fqn": "jsii-calc.IRandomNumberGenerator",
       "kind": "interface",
       "methods": [
         {
           "abstract": true,
+          "docs": {
+            "returns": "A random number.",
+            "summary": "Returns another random number."
+          },
           "name": "next",
           "returns": {
             "primitive": "number"
@@ -2147,12 +2466,31 @@
       "initializer": {
         "initializer": true
       },
+      "interfaces": [
+        {
+          "fqn": "jsii-calc.IPublicInterface2"
+        }
+      ],
       "kind": "class",
+      "methods": [
+        {
+          "name": "ciao",
+          "overrides": {
+            "fqn": "jsii-calc.IPublicInterface2"
+          },
+          "returns": {
+            "primitive": "string"
+          }
+        }
+      ],
       "name": "InbetweenClass"
     },
     "jsii-calc.InterfaceImplementedByAbstractClass": {
       "assembly": "jsii-calc",
       "datatype": true,
+      "docs": {
+        "summary": "awslabs/jsii#220 Abstract return type."
+      },
       "fqn": "jsii-calc.InterfaceImplementedByAbstractClass",
       "kind": "interface",
       "name": "InterfaceImplementedByAbstractClass",
@@ -2462,6 +2800,9 @@
     },
     "jsii-calc.JsiiAgent": {
       "assembly": "jsii-calc",
+      "docs": {
+        "summary": "Host runtime version should be set via JSII_AGENT."
+      },
       "fqn": "jsii-calc.JsiiAgent",
       "initializer": {
         "initializer": true
@@ -2470,6 +2811,9 @@
       "name": "JsiiAgent",
       "properties": [
         {
+          "docs": {
+            "summary": "Returns the value of the JSII_AGENT environment variable."
+          },
           "immutable": true,
           "name": "jsiiAgent",
           "static": true,
@@ -2483,12 +2827,20 @@
     "jsii-calc.LoadBalancedFargateServiceProps": {
       "assembly": "jsii-calc",
       "datatype": true,
+      "docs": {
+        "summary": "jsii#298: show default values in sphinx documentation, and respect newlines."
+      },
       "fqn": "jsii-calc.LoadBalancedFargateServiceProps",
       "kind": "interface",
       "name": "LoadBalancedFargateServiceProps",
       "properties": [
         {
           "abstract": true,
+          "docs": {
+            "default": "80",
+            "remarks": "Corresponds to container port mapping.",
+            "summary": "The container port of the application load balancer attached to your Fargate service."
+          },
           "immutable": true,
           "name": "containerPort",
           "type": {
@@ -2498,6 +2850,11 @@
         },
         {
           "abstract": true,
+          "docs": {
+            "default": "256",
+            "remarks": "Valid values, which determines your range of valid values for the memory parameter:\n256 (.25 vCPU) - Available memory values: 0.5GB, 1GB, 2GB\n512 (.5 vCPU) - Available memory values: 1GB, 2GB, 3GB, 4GB\n1024 (1 vCPU) - Available memory values: 2GB, 3GB, 4GB, 5GB, 6GB, 7GB, 8GB\n2048 (2 vCPU) - Available memory values: Between 4GB and 16GB in 1GB increments\n4096 (4 vCPU) - Available memory values: Between 8GB and 30GB in 1GB increments\n\nThis default is set in the underlying FargateTaskDefinition construct.",
+            "summary": "The number of cpu units used by the task."
+          },
           "immutable": true,
           "name": "cpu",
           "type": {
@@ -2507,6 +2864,11 @@
         },
         {
           "abstract": true,
+          "docs": {
+            "default": "512",
+            "remarks": "This field is required and you must use one of the following values, which determines your range of valid values\nfor the cpu parameter:\n\n0.5GB, 1GB, 2GB - Available cpu values: 256 (.25 vCPU)\n\n1GB, 2GB, 3GB, 4GB - Available cpu values: 512 (.5 vCPU)\n\n2GB, 3GB, 4GB, 5GB, 6GB, 7GB, 8GB - Available cpu values: 1024 (1 vCPU)\n\nBetween 4GB and 16GB in 1GB increments - Available cpu values: 2048 (2 vCPU)\n\nBetween 8GB and 30GB in 1GB increments - Available cpu values: 4096 (4 vCPU)\n\nThis default is set in the underlying FargateTaskDefinition construct.",
+            "summary": "The amount (in MiB) of memory used by the task."
+          },
           "immutable": true,
           "name": "memoryMiB",
           "type": {
@@ -2516,6 +2878,10 @@
         },
         {
           "abstract": true,
+          "docs": {
+            "default": "true",
+            "summary": "Determines whether the Application Load Balancer will be internet-facing."
+          },
           "immutable": true,
           "name": "publicLoadBalancer",
           "type": {
@@ -2525,6 +2891,10 @@
         },
         {
           "abstract": true,
+          "docs": {
+            "default": "false",
+            "summary": "Determines whether your Fargate Service will be assigned a public IP address."
+          },
           "immutable": true,
           "name": "publicTasks",
           "type": {
@@ -2539,17 +2909,29 @@
       "base": {
         "fqn": "jsii-calc.BinaryOperation"
       },
+      "docs": {
+        "summary": "The \"*\" binary operation."
+      },
       "fqn": "jsii-calc.Multiply",
       "initializer": {
+        "docs": {
+          "summary": "Creates a BinaryOperation."
+        },
         "initializer": true,
         "parameters": [
           {
+            "docs": {
+              "summary": "Left-hand side operand."
+            },
             "name": "lhs",
             "type": {
               "fqn": "@scope/jsii-calc-lib.Value"
             }
           },
           {
+            "docs": {
+              "summary": "Right-hand side operand."
+            },
             "name": "rhs",
             "type": {
               "fqn": "@scope/jsii-calc-lib.Value"
@@ -2568,6 +2950,9 @@
       "kind": "class",
       "methods": [
         {
+          "docs": {
+            "summary": "Say farewell."
+          },
           "name": "farewell",
           "overrides": {
             "fqn": "jsii-calc.IFriendlier"
@@ -2577,6 +2962,9 @@
           }
         },
         {
+          "docs": {
+            "summary": "Say goodbye."
+          },
           "name": "goodbye",
           "overrides": {
             "fqn": "jsii-calc.IFriendlier"
@@ -2586,6 +2974,9 @@
           }
         },
         {
+          "docs": {
+            "summary": "Returns another random number."
+          },
           "name": "next",
           "overrides": {
             "fqn": "jsii-calc.IRandomNumberGenerator"
@@ -2595,6 +2986,9 @@
           }
         },
         {
+          "docs": {
+            "summary": "String representation of the value."
+          },
           "name": "toString",
           "overrides": {
             "fqn": "@scope/jsii-calc-lib.Operation"
@@ -2607,6 +3001,9 @@
       "name": "Multiply",
       "properties": [
         {
+          "docs": {
+            "summary": "The value."
+          },
           "immutable": true,
           "name": "value",
           "overrides": {
@@ -2622,6 +3019,9 @@
       "assembly": "jsii-calc",
       "base": {
         "fqn": "jsii-calc.UnaryOperation"
+      },
+      "docs": {
+        "summary": "The negation operation (\"-value\")."
       },
       "fqn": "jsii-calc.Negate",
       "initializer": {
@@ -2643,6 +3043,9 @@
       "kind": "class",
       "methods": [
         {
+          "docs": {
+            "summary": "Say farewell."
+          },
           "name": "farewell",
           "overrides": {
             "fqn": "jsii-calc.IFriendlier"
@@ -2652,6 +3055,9 @@
           }
         },
         {
+          "docs": {
+            "summary": "Say goodbye."
+          },
           "name": "goodbye",
           "overrides": {
             "fqn": "jsii-calc.IFriendlier"
@@ -2661,6 +3067,9 @@
           }
         },
         {
+          "docs": {
+            "summary": "Say hello!."
+          },
           "name": "hello",
           "overrides": {
             "fqn": "@scope/jsii-calc-lib.IFriendly"
@@ -2670,6 +3079,9 @@
           }
         },
         {
+          "docs": {
+            "summary": "String representation of the value."
+          },
           "name": "toString",
           "overrides": {
             "fqn": "@scope/jsii-calc-lib.Operation"
@@ -2682,6 +3094,9 @@
       "name": "Negate",
       "properties": [
         {
+          "docs": {
+            "summary": "The value."
+          },
           "immutable": true,
           "name": "value",
           "overrides": {
@@ -2695,6 +3110,9 @@
     },
     "jsii-calc.NodeStandardLibrary": {
       "assembly": "jsii-calc",
+      "docs": {
+        "summary": "Test fixture to verify that jsii modules can use the node standard library."
+      },
       "fqn": "jsii-calc.NodeStandardLibrary",
       "initializer": {
         "initializer": true
@@ -2702,12 +3120,22 @@
       "kind": "class",
       "methods": [
         {
+          "docs": {
+            "remarks": "js \"crypto\" module to calculate sha256 of a string.",
+            "returns": "\"6a2da20943931e9834fc12cfe5bb47bbd9ae43489a30726962b576f4e3993e50\"",
+            "summary": "Uses node."
+          },
           "name": "cryptoSha256",
           "returns": {
             "primitive": "string"
           }
         },
         {
+          "docs": {
+            "remarks": "txt) asynchronously.",
+            "returns": "\"Hello, resource!\"",
+            "summary": "Reads a local resource file (resource."
+          },
           "name": "fsReadFile",
           "returns": {
             "primitive": "string",
@@ -2715,6 +3143,10 @@
           }
         },
         {
+          "docs": {
+            "returns": "\"Hello, resource! SYNC!\"",
+            "summary": "Sync version of fsReadFile."
+          },
           "name": "fsReadFileSync",
           "returns": {
             "primitive": "string"
@@ -2724,6 +3156,10 @@
       "name": "NodeStandardLibrary",
       "properties": [
         {
+          "docs": {
+            "remarks": "platform() from the \"os\" node module.",
+            "summary": "Returns the current os."
+          },
           "immutable": true,
           "name": "osPlatform",
           "type": {
@@ -2734,6 +3170,9 @@
     },
     "jsii-calc.NullShouldBeTreatedAsUndefined": {
       "assembly": "jsii-calc",
+      "docs": {
+        "summary": "jsii#282, aws-cdk#157: null should be treated as \"undefined\"."
+      },
       "fqn": "jsii-calc.NullShouldBeTreatedAsUndefined",
       "initializer": {
         "initializer": true,
@@ -2826,6 +3265,9 @@
     },
     "jsii-calc.NumberGenerator": {
       "assembly": "jsii-calc",
+      "docs": {
+        "summary": "This allows us to test that a reference can be stored for objects that implement interfaces."
+      },
       "fqn": "jsii-calc.NumberGenerator",
       "initializer": {
         "initializer": true,
@@ -2873,6 +3315,9 @@
     },
     "jsii-calc.ObjectRefsInCollections": {
       "assembly": "jsii-calc",
+      "docs": {
+        "summary": "Verify that object references can be passed inside collections."
+      },
       "fqn": "jsii-calc.ObjectRefsInCollections",
       "initializer": {
         "initializer": true
@@ -2880,6 +3325,9 @@
       "kind": "class",
       "methods": [
         {
+          "docs": {
+            "summary": "Returns the sum of all values."
+          },
           "name": "sumFromArray",
           "parameters": [
             {
@@ -2899,6 +3347,9 @@
           }
         },
         {
+          "docs": {
+            "summary": "Returns the sum of all values in a map."
+          },
           "name": "sumFromMap",
           "parameters": [
             {
@@ -2919,6 +3370,27 @@
         }
       ],
       "name": "ObjectRefsInCollections"
+    },
+    "jsii-calc.Old": {
+      "assembly": "jsii-calc",
+      "docs": {
+        "deprecated": "Use the new class",
+        "summary": "Old class."
+      },
+      "fqn": "jsii-calc.Old",
+      "initializer": {
+        "initializer": true
+      },
+      "kind": "class",
+      "methods": [
+        {
+          "docs": {
+            "summary": "Doo wop that thing."
+          },
+          "name": "doAThing"
+        }
+      ],
+      "name": "Old"
     },
     "jsii-calc.OptionalConstructorArgument": {
       "assembly": "jsii-calc",
@@ -2999,6 +3471,45 @@
       ],
       "name": "OverrideReturnsObject"
     },
+    "jsii-calc.PartiallyInitializedThisConsumer": {
+      "abstract": true,
+      "assembly": "jsii-calc",
+      "fqn": "jsii-calc.PartiallyInitializedThisConsumer",
+      "initializer": {
+        "initializer": true
+      },
+      "kind": "class",
+      "methods": [
+        {
+          "abstract": true,
+          "name": "consumePartiallyInitializedThis",
+          "parameters": [
+            {
+              "name": "obj",
+              "type": {
+                "fqn": "jsii-calc.ConstructorPassesThisOut"
+              }
+            },
+            {
+              "name": "dt",
+              "type": {
+                "primitive": "date"
+              }
+            },
+            {
+              "name": "ev",
+              "type": {
+                "fqn": "jsii-calc.AllTypesEnum"
+              }
+            }
+          ],
+          "returns": {
+            "primitive": "string"
+          }
+        }
+      ],
+      "name": "PartiallyInitializedThisConsumer"
+    },
     "jsii-calc.Polymorphism": {
       "assembly": "jsii-calc",
       "fqn": "jsii-calc.Polymorphism",
@@ -3029,17 +3540,29 @@
       "base": {
         "fqn": "jsii-calc.composition.CompositeOperation"
       },
+      "docs": {
+        "summary": "The power operation."
+      },
       "fqn": "jsii-calc.Power",
       "initializer": {
+        "docs": {
+          "summary": "Creates a Power operation."
+        },
         "initializer": true,
         "parameters": [
           {
+            "docs": {
+              "summary": "The base of the power."
+            },
             "name": "base",
             "type": {
               "fqn": "@scope/jsii-calc-lib.Value"
             }
           },
           {
+            "docs": {
+              "summary": "The number of times to multiply."
+            },
             "name": "pow",
             "type": {
               "fqn": "@scope/jsii-calc-lib.Value"
@@ -3051,6 +3574,9 @@
       "name": "Power",
       "properties": [
         {
+          "docs": {
+            "summary": "The base of the power."
+          },
           "immutable": true,
           "name": "base",
           "type": {
@@ -3058,6 +3584,10 @@
           }
         },
         {
+          "docs": {
+            "remarks": "Must be implemented by derived classes.",
+            "summary": "The expression that this operation consists of."
+          },
           "immutable": true,
           "name": "expression",
           "overrides": {
@@ -3068,6 +3598,9 @@
           }
         },
         {
+          "docs": {
+            "summary": "The number of times to multiply."
+          },
           "immutable": true,
           "name": "pow",
           "type": {
@@ -3199,6 +3732,9 @@
     },
     "jsii-calc.ReferenceEnumFromScopedPackage": {
       "assembly": "jsii-calc",
+      "docs": {
+        "summary": "See awslabs/jsii#138."
+      },
       "fqn": "jsii-calc.ReferenceEnumFromScopedPackage",
       "initializer": {
         "initializer": true
@@ -3237,6 +3773,11 @@
     },
     "jsii-calc.ReturnsPrivateImplementationOfInterface": {
       "assembly": "jsii-calc",
+      "docs": {
+        "returns": "an instance of an un-exported class that extends `ExportedBaseClass`, declared as `IPrivatelyImplemented`.",
+        "seeLink": "https://github.com/awslabs/jsii/issues/320",
+        "summary": "Helps ensure the JSII kernel & runtime cooperate correctly when an un-exported instance of a class is returned with a declared type that is an exported interface, and the instance inherits from an exported class."
+      },
       "fqn": "jsii-calc.ReturnsPrivateImplementationOfInterface",
       "initializer": {
         "initializer": true
@@ -3300,6 +3841,9 @@
           ]
         },
         {
+          "docs": {
+            "summary": "Used to verify verification of number of method arguments."
+          },
           "name": "methodWithOptionalArguments",
           "parameters": [
             {
@@ -3326,6 +3870,33 @@
       ],
       "name": "RuntimeTypeChecking"
     },
+    "jsii-calc.SingleInstanceTwoTypes": {
+      "assembly": "jsii-calc",
+      "docs": {
+        "remarks": "JSII clients can instantiate 2 different strongly-typed wrappers for the same\nobject. Unfortunately, this will break object equality, but if we didn't do\nthis it would break runtime type checks in the JVM or CLR.",
+        "summary": "Test that a single instance can be returned under two different FQNs."
+      },
+      "fqn": "jsii-calc.SingleInstanceTwoTypes",
+      "initializer": {
+        "initializer": true
+      },
+      "kind": "class",
+      "methods": [
+        {
+          "name": "interface1",
+          "returns": {
+            "fqn": "jsii-calc.InbetweenClass"
+          }
+        },
+        {
+          "name": "interface2",
+          "returns": {
+            "fqn": "jsii-calc.IPublicInterface"
+          }
+        }
+      ],
+      "name": "SingleInstanceTwoTypes"
+    },
     "jsii-calc.Statics": {
       "assembly": "jsii-calc",
       "fqn": "jsii-calc.Statics",
@@ -3343,9 +3914,15 @@
       "kind": "class",
       "methods": [
         {
+          "docs": {
+            "summary": "Jsdocs for static method."
+          },
           "name": "staticMethod",
           "parameters": [
             {
+              "docs": {
+                "summary": "The name of the person to say hello to."
+              },
               "name": "name",
               "type": {
                 "primitive": "string"
@@ -3368,6 +3945,9 @@
       "properties": [
         {
           "const": true,
+          "docs": {
+            "summary": "Constants may also use all-caps."
+          },
           "immutable": true,
           "name": "BAR",
           "static": true,
@@ -3386,6 +3966,9 @@
         },
         {
           "const": true,
+          "docs": {
+            "summary": "Jsdocs for static property."
+          },
           "immutable": true,
           "name": "Foo",
           "static": true,
@@ -3395,6 +3978,9 @@
         },
         {
           "const": true,
+          "docs": {
+            "summary": "Constants can also use camelCase."
+          },
           "immutable": true,
           "name": "zooBar",
           "static": true,
@@ -3408,6 +3994,10 @@
           }
         },
         {
+          "docs": {
+            "remarks": "Jsdocs for static setter.",
+            "summary": "Jsdocs for static getter."
+          },
           "name": "instance",
           "static": true,
           "type": {
@@ -3469,6 +4059,9 @@
       "base": {
         "fqn": "jsii-calc.composition.CompositeOperation"
       },
+      "docs": {
+        "summary": "An operation that sums multiple values."
+      },
       "fqn": "jsii-calc.Sum",
       "initializer": {
         "initializer": true
@@ -3477,6 +4070,10 @@
       "name": "Sum",
       "properties": [
         {
+          "docs": {
+            "remarks": "Must be implemented by derived classes.",
+            "summary": "The expression that this operation consists of."
+          },
           "immutable": true,
           "name": "expression",
           "overrides": {
@@ -3487,6 +4084,9 @@
           }
         },
         {
+          "docs": {
+            "summary": "The parts to sum."
+          },
           "name": "parts",
           "type": {
             "collection": {
@@ -3653,6 +4253,9 @@
       "base": {
         "fqn": "@scope/jsii-calc-lib.Operation"
       },
+      "docs": {
+        "summary": "An operation on a single operand."
+      },
       "fqn": "jsii-calc.UnaryOperation",
       "initializer": {
         "initializer": true,
@@ -3743,6 +4346,9 @@
     },
     "jsii-calc.UseCalcBase": {
       "assembly": "jsii-calc",
+      "docs": {
+        "summary": "Depend on a type from jsii-calc-base as a test for awslabs/jsii#128."
+      },
       "fqn": "jsii-calc.UseCalcBase",
       "initializer": {
         "initializer": true
@@ -3827,6 +4433,9 @@
         "initializer": true,
         "parameters": [
           {
+            "docs": {
+              "summary": "a prefix that will be use for all values returned by `#asArray`."
+            },
             "name": "prefix",
             "type": {
               "primitive": "number"
@@ -3842,12 +4451,18 @@
           "name": "asArray",
           "parameters": [
             {
+              "docs": {
+                "summary": "the first element of the array to be returned (after the `prefix` provided at construction time)."
+              },
               "name": "first",
               "type": {
                 "primitive": "number"
               }
             },
             {
+              "docs": {
+                "summary": "other elements to be included in the array."
+              },
               "name": "others",
               "type": {
                 "primitive": "number"
@@ -3958,6 +4573,9 @@
       "base": {
         "fqn": "@scope/jsii-calc-lib.Operation"
       },
+      "docs": {
+        "summary": "Abstract operation composed from an expression of other operations."
+      },
       "fqn": "jsii-calc.composition.CompositeOperation",
       "initializer": {
         "initializer": true
@@ -3965,6 +4583,9 @@
       "kind": "class",
       "methods": [
         {
+          "docs": {
+            "summary": "String representation of the value."
+          },
           "name": "toString",
           "overrides": {
             "fqn": "@scope/jsii-calc-lib.Operation"
@@ -3979,6 +4600,10 @@
       "properties": [
         {
           "abstract": true,
+          "docs": {
+            "remarks": "Must be implemented by derived classes.",
+            "summary": "The expression that this operation consists of."
+          },
           "immutable": true,
           "name": "expression",
           "type": {
@@ -3986,6 +4611,9 @@
           }
         },
         {
+          "docs": {
+            "summary": "The value."
+          },
           "immutable": true,
           "name": "value",
           "overrides": {
@@ -3996,6 +4624,10 @@
           }
         },
         {
+          "docs": {
+            "remarks": "toString().",
+            "summary": "A set of postfixes to include in a decorated ."
+          },
           "name": "decorationPostfixes",
           "type": {
             "collection": {
@@ -4007,6 +4639,10 @@
           }
         },
         {
+          "docs": {
+            "remarks": "toString().",
+            "summary": "A set of prefixes to include in a decorated ."
+          },
           "name": "decorationPrefixes",
           "type": {
             "collection": {
@@ -4018,6 +4654,10 @@
           }
         },
         {
+          "docs": {
+            "remarks": "toString() style.",
+            "summary": "The ."
+          },
           "name": "stringStyle",
           "type": {
             "fqn": "jsii-calc.composition.CompositeOperation.CompositionStringStyle"
@@ -4027,13 +4667,23 @@
     },
     "jsii-calc.composition.CompositeOperation.CompositionStringStyle": {
       "assembly": "jsii-calc",
+      "docs": {
+        "remarks": "toString() output for CompositeOperation.",
+        "summary": "Style of ."
+      },
       "fqn": "jsii-calc.composition.CompositeOperation.CompositionStringStyle",
       "kind": "enum",
       "members": [
         {
+          "docs": {
+            "summary": "Normal string expression."
+          },
           "name": "Normal"
         },
         {
+          "docs": {
+            "summary": "Decorated string expression."
+          },
           "name": "Decorated"
         }
       ],
@@ -4041,6 +4691,6 @@
       "namespace": "composition.CompositeOperation"
     }
   },
-  "version": "0.8.0",
-  "fingerprint": "zjyaVFNuiBrGxEZDWY1348yw0gaWtwB8yU/pEp4CPcY="
+  "version": "0.8.2",
+  "fingerprint": "sR9Mu3HU+WiejT9UFs1Mna9Djn8Jb0LXnJ0+I/ufEvo="
 }

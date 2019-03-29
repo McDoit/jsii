@@ -6,6 +6,10 @@ public abstract class Value extends software.amazon.jsii.tests.calculator.base.B
     protected Value(final software.amazon.jsii.JsiiObject.InitializationMode mode) {
         super(mode);
     }
+    public Value() {
+        super(software.amazon.jsii.JsiiObject.InitializationMode.Jsii);
+        software.amazon.jsii.JsiiEngine.getInstance().createNewObject(this);
+    }
 
     public java.lang.String toString() {
         return this.jsiiCall("toString", java.lang.String.class);

@@ -32,7 +32,7 @@
               "module": "scope.jsii_calc_base_of_base"
             }
           },
-          "version": "0.8.0"
+          "version": "0.8.2"
         }
       },
       "peer": true,
@@ -56,7 +56,7 @@
           "module": "scope.jsii_calc_base"
         }
       },
-      "version": "0.8.0"
+      "version": "0.8.2"
     }
   },
   "description": "A simple calcuator library built on JSII.",
@@ -91,6 +91,10 @@
   "types": {
     "@scope/jsii-calc-lib.EnumFromScopedModule": {
       "assembly": "@scope/jsii-calc-lib",
+      "docs": {
+        "remarks": "See awslabs/jsii#138",
+        "summary": "Check that enums from \\@scoped packages can be references."
+      },
       "fqn": "@scope/jsii-calc-lib.EnumFromScopedModule",
       "kind": "enum",
       "members": [
@@ -105,6 +109,9 @@
     },
     "@scope/jsii-calc-lib.IDoublable": {
       "assembly": "@scope/jsii-calc-lib",
+      "docs": {
+        "summary": "The general contract for a concrete number."
+      },
       "fqn": "@scope/jsii-calc-lib.IDoublable",
       "kind": "interface",
       "name": "IDoublable",
@@ -121,11 +128,18 @@
     },
     "@scope/jsii-calc-lib.IFriendly": {
       "assembly": "@scope/jsii-calc-lib",
+      "docs": {
+        "remarks": "These classes can be greeted with\na \"hello\" or \"goodbye\" blessing and they will respond back in a fun and friendly manner.",
+        "summary": "Applies to classes that are considered friendly."
+      },
       "fqn": "@scope/jsii-calc-lib.IFriendly",
       "kind": "interface",
       "methods": [
         {
           "abstract": true,
+          "docs": {
+            "summary": "Say hello!."
+          },
           "name": "hello",
           "returns": {
             "primitive": "string"
@@ -137,12 +151,18 @@
     "@scope/jsii-calc-lib.MyFirstStruct": {
       "assembly": "@scope/jsii-calc-lib",
       "datatype": true,
+      "docs": {
+        "summary": "This is the first struct we have created in jsii."
+      },
       "fqn": "@scope/jsii-calc-lib.MyFirstStruct",
       "kind": "interface",
       "name": "MyFirstStruct",
       "properties": [
         {
           "abstract": true,
+          "docs": {
+            "summary": "An awesome number value."
+          },
           "immutable": true,
           "name": "anumber",
           "type": {
@@ -151,6 +171,9 @@
         },
         {
           "abstract": true,
+          "docs": {
+            "summary": "A string value."
+          },
           "immutable": true,
           "name": "astring",
           "type": {
@@ -178,11 +201,20 @@
       "base": {
         "fqn": "@scope/jsii-calc-lib.Value"
       },
+      "docs": {
+        "summary": "Represents a concrete number."
+      },
       "fqn": "@scope/jsii-calc-lib.Number",
       "initializer": {
+        "docs": {
+          "summary": "Creates a Number object."
+        },
         "initializer": true,
         "parameters": [
           {
+            "docs": {
+              "summary": "The number."
+            },
             "name": "value",
             "type": {
               "primitive": "number"
@@ -199,6 +231,9 @@
       "name": "Number",
       "properties": [
         {
+          "docs": {
+            "summary": "The number multiplied by 2."
+          },
           "immutable": true,
           "name": "doubleValue",
           "overrides": {
@@ -209,6 +244,9 @@
           }
         },
         {
+          "docs": {
+            "summary": "The number."
+          },
           "immutable": true,
           "name": "value",
           "overrides": {
@@ -226,6 +264,9 @@
       "base": {
         "fqn": "@scope/jsii-calc-lib.Value"
       },
+      "docs": {
+        "summary": "Represents an operation on values."
+      },
       "fqn": "@scope/jsii-calc-lib.Operation",
       "initializer": {
         "initializer": true
@@ -234,6 +275,9 @@
       "methods": [
         {
           "abstract": true,
+          "docs": {
+            "summary": "String representation of the value."
+          },
           "name": "toString",
           "overrides": {
             "fqn": "@scope/jsii-calc-lib.Value"
@@ -248,12 +292,18 @@
     "@scope/jsii-calc-lib.StructWithOnlyOptionals": {
       "assembly": "@scope/jsii-calc-lib",
       "datatype": true,
+      "docs": {
+        "summary": "This is a struct with only optional properties."
+      },
       "fqn": "@scope/jsii-calc-lib.StructWithOnlyOptionals",
       "kind": "interface",
       "name": "StructWithOnlyOptionals",
       "properties": [
         {
           "abstract": true,
+          "docs": {
+            "summary": "The first optional!."
+          },
           "immutable": true,
           "name": "optional1",
           "type": {
@@ -287,6 +337,9 @@
       "base": {
         "fqn": "@scope/jsii-calc-base.Base"
       },
+      "docs": {
+        "summary": "Abstract class which represents a numeric value."
+      },
       "fqn": "@scope/jsii-calc-lib.Value",
       "initializer": {
         "initializer": true
@@ -294,6 +347,9 @@
       "kind": "class",
       "methods": [
         {
+          "docs": {
+            "summary": "String representation of the value."
+          },
           "name": "toString",
           "returns": {
             "primitive": "string"
@@ -304,6 +360,9 @@
       "properties": [
         {
           "abstract": true,
+          "docs": {
+            "summary": "The value."
+          },
           "immutable": true,
           "name": "value",
           "type": {
@@ -313,6 +372,6 @@
       ]
     }
   },
-  "version": "0.8.0",
-  "fingerprint": "2iD17mhMrbeTvms7+jSFnSXjiris1eL39+f6kiAbxjI="
+  "version": "0.8.2",
+  "fingerprint": "ytbcB4Bd8LhgHU3H1vMt++B7CATemDjHURxELB2SDNs="
 }

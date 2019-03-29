@@ -15,6 +15,7 @@ assemblies
  │   ├── class ClassThatImplementsThePrivateInterface
  │   ├── class ClassWithMutableObjectLiteralProperty
  │   ├── class ClassWithPrivateConstructorAndAutomaticProperties
+ │   ├── class ConstructorPassesThisOut
  │   ├── class Constructors
  │   ├── class ConsumersOfThisCrazyTypeSystem
  │   ├── class DefaultedConstructorArgument
@@ -49,6 +50,7 @@ assemblies
  │   ├── class Old
  │   ├── class OptionalConstructorArgument
  │   ├── class OverrideReturnsObject
+ │   ├── class PartiallyInitializedThisConsumer
  │   ├── class Polymorphism
  │   ├── class Power
  │   ├── class PublicClass
@@ -56,6 +58,7 @@ assemblies
  │   ├── class ReferenceEnumFromScopedPackage
  │   ├── class ReturnsPrivateImplementationOfInterface
  │   ├── class RuntimeTypeChecking
+ │   ├── class SingleInstanceTwoTypes
  │   ├── class Statics
  │   ├── class StripInternal
  │   ├── class Sum
@@ -87,6 +90,7 @@ assemblies
  │   ├── interface INonInternalInterface
  │   ├── interface IPrivatelyImplemented
  │   ├── interface IPublicInterface
+ │   ├── interface IPublicInterface2
  │   ├── interface IRandomNumberGenerator
  │   ├── interface IReturnsNumber
  │   ├── interface ImplictBaseOfBase

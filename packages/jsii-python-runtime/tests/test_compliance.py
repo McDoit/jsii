@@ -10,9 +10,11 @@ from jsii_calc import (
     AbstractClassReturner,
     Add,
     AllTypes,
+    AllTypesEnum,
     AsyncVirtualMethods,
     Calculator,
     ClassWithPrivateConstructorAndAutomaticProperties,
+    ConstructorPassesThisOut,
     DoNotOverridePrivates,
     DoubleTrouble,
     GreetingAugmenter,
@@ -28,6 +30,7 @@ from jsii_calc import (
     NodeStandardLibrary,
     NullShouldBeTreatedAsUndefined,
     NumberGenerator,
+    PartiallyInitializedThisConsumer,
     Polymorphism,
     Power,
     PythonReservedWords,
@@ -48,9 +51,6 @@ from scope.jsii_calc_lib import IFriendly, EnumFromScopedModule, Number
 # Note: While we could write more expressive and better tests using the functionality
 #       provided to us by pytest, we are making these tests match the Java Compliance
 #       Tests as closely as possible to make keeping them in sync easier.
-
-# These map distinct reasons for failures, so we an easily find them.
-xfail_callbacks = pytest.mark.skip(reason="Implement callback support")
 
 
 class DerivedFromAllTypes(AllTypes):
@@ -277,13 +277,13 @@ def test_unionTypes():
 
     # map
     map_ = {}
-    map_["Foo"] = Multiply(Number(2), Number(99))
+    map_["Foo"] = Number(99)
     types.union_map_property = map_
     # TODO: No Assertion?
 
     # array
-    types.union_array_property = ["Hello", 123, Number(33)]
-    assert types.union_array_property[2].value == 33
+    types.union_array_property = [123, Number(33)]
+    assert types.union_array_property[1].value == 33
 
 
 def test_createObjectAndCtorOverloads():
@@ -472,12 +472,12 @@ def test_asyncOverrides_callAsyncMethod():
 
 def test_asyncOverrides_overrideAsyncMethod():
     obj = OverrideAsyncMethods()
-    obj.call_me() == 4452
+    assert obj.call_me() == 4452
 
 
 def test_asyncOverrides_overrideAsyncMethodByParentClass():
     obj = OverrideAsyncMethodsByBaseClass()
-    obj.call_me() == 4452
+    assert obj.call_me() == 4452
 
 
 def test_asyncOverrides_overrideCallsSuper():
@@ -502,7 +502,6 @@ def test_asyncOverrides_overrideThrows():
         obj.call_me()
 
 
-@xfail_callbacks
 def test_syncOverrides():
     obj = SyncOverrides()
     assert obj.caller_is_method() == 10 * 5
@@ -516,18 +515,14 @@ def test_syncOverrides():
 
     # and from an async method
     obj.multiplier = 3
-    assert obj.caller_is_async == 10 * 5 * 3
+    assert obj.caller_is_async() == 10 * 5 * 3
 
-
-@xfail_callbacks
 def test_propertyOverrides_get_set():
     so = SyncOverrides()
-    assert so.retrieve_value_of_the_property == "I am an override!"
+    assert so.retrieve_value_of_the_property() == "I am an override!"
     so.modify_value_of_the_property("New Value")
     assert so.another_the_property == "New Value"
 
-
-@xfail_callbacks
 def test_propertyOverrides_get_calls_super():
     class SuperSyncVirtualMethods(SyncVirtualMethods):
         @property
@@ -543,8 +538,6 @@ def test_propertyOverrides_get_calls_super():
     assert so.retrieve_value_of_the_property() == "super:initial value"
     assert so.the_property == "super:initial value"
 
-
-@xfail_callbacks
 def test_propertyOverrides_set_calls_super():
     class SuperSyncVirtualMethods(SyncVirtualMethods):
         @property
@@ -553,15 +546,19 @@ def test_propertyOverrides_set_calls_super():
 
         @the_property.setter
         def the_property(self, value):
-            super().the_property = f"{value}:by override"
+            #
+            # This is the way this was originally coded:
+            #   super().the_property = f"{value}:by override"
+            # but this causes a problem because of:
+            #   https://bugs.python.org/issue14965
+            # so now we have this more convoluted form.
+            super(self.__class__, self.__class__).the_property.__set__(self, f"{value}:by override")
 
     so = SuperSyncVirtualMethods()
     so.modify_value_of_the_property("New Value")
 
     assert so.the_property == "New Value:by override"
 
-
-@xfail_callbacks
 def test_propertyOverrides_get_throws():
     class ThrowingSyncVirtualMethods(SyncVirtualMethods):
         @property
@@ -578,7 +575,6 @@ def test_propertyOverrides_get_throws():
         so.retrieve_value_of_the_property()
 
 
-@xfail_callbacks
 def test_propertyOverrides_set_throws():
     class ThrowingSyncVirtualMethods(SyncVirtualMethods):
         @property
@@ -595,11 +591,9 @@ def test_propertyOverrides_set_throws():
         so.modify_value_of_the_property("Hii")
 
 
-@pytest.mark.xfail(
-    reason="Overrides are still not implemented.", strict=True
-)
 def test_propertyOverrides_interfaces():
-    class TInterfaceWithProperties(IInterfaceWithProperties):
+    @jsii.implements(IInterfaceWithProperties)
+    class TInterfaceWithProperties:
 
         x = None
 
@@ -622,11 +616,9 @@ def test_propertyOverrides_interfaces():
     assert interact.write_and_read("Hello") == "Hello!?"
 
 
-@pytest.mark.xfail(
-    reason="Overrides are still not implemented.", strict=True
-)
 def test_interfaceBuilder():
-    class TInterfaceWithProperties(IInterfaceWithProperties):
+    @jsii.implements(IInterfaceWithProperties)
+    class TInterfaceWithProperties:
 
         x = "READ_WRITE"
 
@@ -647,7 +639,6 @@ def test_interfaceBuilder():
     assert interact.just_read() == "READ_ONLY"
     assert interact.write_and_read("Hello") == "Hello"
 
-@xfail_callbacks
 def test_syncOverrides_callsSuper():
     obj = SyncOverrides()
     assert obj.caller_is_property == 10 * 5
@@ -655,7 +646,6 @@ def test_syncOverrides_callsSuper():
     assert obj.caller_is_property == 10 * 2
 
 
-@pytest.mark.skip
 def test_fail_syncOverrides_callsDoubleAsync_method():
     obj = SyncOverrides()
     obj.call_async = True
@@ -665,7 +655,6 @@ def test_fail_syncOverrides_callsDoubleAsync_method():
         obj.caller_is_method()
 
 
-@pytest.mark.skip
 def test_fail_syncOverrides_callsDoubleAsync_propertyGetter():
     obj = SyncOverrides()
     obj.call_async = True
@@ -685,7 +674,6 @@ def test_fail_syncOverrides_callsDoubleAsync_propertySetter():
         obj.caller_is_property = 12
 
 
-@xfail_callbacks
 def test_testInterfaces():
     friendly: IFriendly
     friendlier: IFriendlier
@@ -721,7 +709,6 @@ def test_testInterfaces():
     assert poly.say_hello(PureNativeFriendlyRandom()) == "oh, I am a native!"
 
 
-@xfail_callbacks
 def test_testNativeObjectsWithInterfaces():
     # create a pure and native object, not part of the jsii hierarchy, only implements
     # a jsii interface
@@ -895,3 +882,16 @@ def test_eraseUnsetDataValues():
     }
     assert EraseUndefinedHashValues.does_key_exist(opts, "option1")
     assert not EraseUndefinedHashValues.does_key_exist(opts, "option2")
+
+
+def test_objectIdDoesNotGetReallocatedWhenTheConstructorPassesThisOut():
+    class PartiallyInitializedThisConsumerImpl(PartiallyInitializedThisConsumer):
+        def consume_partially_initialized_this(self, obj, dt, en):
+            assert obj is not None
+            assert isinstance(dt, datetime)
+            assert en.member == AllTypesEnum.ThisIsGreat.value
+            return "OK"
+
+    reflector = PartiallyInitializedThisConsumerImpl()
+    obj = ConstructorPassesThisOut(reflector)
+    assert obj is not None

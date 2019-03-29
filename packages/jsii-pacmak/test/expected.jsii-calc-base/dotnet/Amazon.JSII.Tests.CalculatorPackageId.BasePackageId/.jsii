@@ -30,7 +30,7 @@
           "module": "scope.jsii_calc_base_of_base"
         }
       },
-      "version": "0.8.0"
+      "version": "0.8.2"
     }
   },
   "description": "An example direct dependency for jsii-calc.",
@@ -104,6 +104,11 @@
       ]
     }
   },
+<<<<<<< HEAD
   "version": "0.8.0",
   "fingerprint": "wyFDJHh5lksuAZSpILmF5ldsfdZ1Jq9qIoVVVfBdd/4="
+=======
+  "version": "0.8.2",
+  "fingerprint": "FrfcJZ64DB2APeRFjFb+EjYcfZxYEVji9GDpZ7KW1Ow="
+>>>>>>> origin/master
 }

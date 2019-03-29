@@ -1,5 +1,4 @@
 using Amazon.JSII.Runtime.Deputy;
-using Amazon.JSII.Tests.CalculatorNamespace.composition;
 using Amazon.JSII.Tests.CalculatorNamespace.LibNamespace;
 using Newtonsoft.Json.Linq;
 using System;
@@ -105,7 +104,7 @@ namespace Amazon.JSII.Tests.CalculatorNamespace
             set => SetInstanceProperty(value);
         }
 
-        [JsiiProperty("unionArrayProperty", "{\"collection\":{\"kind\":\"array\",\"elementtype\":{\"union\":{\"types\":[{\"primitive\":\"number\"},{\"fqn\":\"jsii-calc.composition.CompositeOperation\"}]}}}}")]
+        [JsiiProperty("unionArrayProperty", "{\"collection\":{\"kind\":\"array\",\"elementtype\":{\"union\":{\"types\":[{\"primitive\":\"number\"},{\"fqn\":\"@scope/jsii-calc-lib.Value\"}]}}}}")]
         public virtual object[] UnionArrayProperty
         {
             get => GetInstanceProperty<object[]>();
@@ -152,6 +151,18 @@ namespace Amazon.JSII.Tests.CalculatorNamespace
         {
             get => GetInstanceProperty<StringEnum>();
             set => SetInstanceProperty(value);
+        }
+
+        [JsiiMethod("anyIn", null, "[{\"name\":\"inp\",\"type\":{\"primitive\":\"any\"}}]")]
+        public virtual void AnyIn(object inp)
+        {
+            InvokeInstanceVoidMethod(new object[]{inp});
+        }
+
+        [JsiiMethod("anyOut", "{\"primitive\":\"any\"}", "[]")]
+        public virtual object AnyOut()
+        {
+            return InvokeInstanceMethod<object>(new object[]{});
         }
 
         [JsiiMethod("enumMethod", "{\"fqn\":\"jsii-calc.StringEnum\"}", "[{\"name\":\"value\",\"type\":{\"fqn\":\"jsii-calc.StringEnum\"}}]")]

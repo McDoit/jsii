@@ -30,7 +30,7 @@
           "module": "scope.jsii_calc_base_of_base"
         }
       },
-      "version": "0.8.0"
+      "version": "0.8.2"
     }
   },
   "description": "An example direct dependency for jsii-calc.",
@@ -66,6 +66,9 @@
     "@scope/jsii-calc-base.Base": {
       "abstract": true,
       "assembly": "@scope/jsii-calc-base",
+      "docs": {
+        "summary": "A base class."
+      },
       "fqn": "@scope/jsii-calc-base.Base",
       "initializer": {
         "initializer": true
@@ -73,6 +76,9 @@
       "kind": "class",
       "methods": [
         {
+          "docs": {
+            "returns": "the name of the class (to verify native type names are created for derived classes)."
+          },
           "name": "typeName",
           "returns": {
             "primitive": "any"
@@ -104,6 +110,6 @@
       ]
     }
   },
-  "version": "0.8.0",
-  "fingerprint": "wyFDJHh5lksuAZSpILmF5ldsfdZ1Jq9qIoVVVfBdd/4="
+  "version": "0.8.2",
+  "fingerprint": "4jX4FdJMQfD7LINHWTh3WuTMHvAPMd3fjOCybnpuqc8="
 }
