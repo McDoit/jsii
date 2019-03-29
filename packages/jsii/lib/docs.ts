@@ -83,7 +83,7 @@ export function parseSymbolDocumentation(comments: string | undefined, tags: ts.
   if (tagNames.size > 0) {
     docs.custom = {};
     for (const [key, value] of tagNames.entries()) {
-      docs.custom[key] = value || '';
+      docs.custom[key] = value || 'true';  // Key must have a value or it will be stripped from the assembly
     }
   }
 

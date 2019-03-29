@@ -609,7 +609,7 @@ export class Assembler implements Emitter {
      *
      * @returns ``documentable``
      */
-    private _visitDocumentation(sym: ts.Symbol): spec.Docs {
+    private _visitDocumentation(sym: ts.Symbol): spec.Docs | undefined {
         const comment = ts.displayPartsToString(sym.getDocumentationComment(this._typeChecker)).trim();
 
         // Right here we'll just guess that the first declaration site is the most important one.
@@ -622,7 +622,8 @@ export class Assembler implements Emitter {
             );
         }
 
-        return result.docs;
+        const allUndefined = Object.values(result.docs).every(v => v === undefined);
+        return !allUndefined ? result.docs : undefined;
     }
 
     private async _visitInterface(type: ts.Type, namespace: string[]): Promise<spec.InterfaceType | undefined> {

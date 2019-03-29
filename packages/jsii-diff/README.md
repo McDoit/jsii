@@ -21,6 +21,19 @@ To compare current package against latest published NPM release:
     # Can leave out . for current directory
     jsii-diff npm:package [.]
 
+## Details
+
+__jsii-diff__ will assert that code written against version A of a library
+will still typecheck when compiled against version B of that library. It does
+this by verifying the following properties:
+
+- Any type (class/interface/enum) in A must also exist in B.
+- Enums have only added members.
+-
+
+
+### Subclassing
+
 ## License
 
 __jsii-diff__ is distributed under the

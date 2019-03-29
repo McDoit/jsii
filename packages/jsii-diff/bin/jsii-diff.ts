@@ -14,6 +14,7 @@ async function main(): Promise<number> {
       .env('JSII_DIFF')
       .option('verbose', { alias: 'v', type: 'count', desc: 'Increase the verbosity of output', global: true })
       .option('stable', { alias: 's', type: 'boolean', desc: 'Treat unmarked APIs as stable' })
+      .option('struct-readers', { alias: 'r', type: 'boolean', desc: 'Assume all structs are read by user code regardless of their I/O position.' })
       .usage('$0 <original> [updated]', 'Compare two JSII assemblies.', args => args
         .positional('original', {
           description: 'Original assembly (file, package or "npm:package@version")',
@@ -46,7 +47,8 @@ async function main(): Promise<number> {
   LOG.info(`Starting analysis`);
   compareAssemblies(original, updated, {
     mismatches,
-    defaultStable: argv.stable
+    defaultStable: argv.stable,
+    assumeStructReaders: argv["struct-readers"]
   });
 
   LOG.info(`Found ${mismatches.count} issues`);

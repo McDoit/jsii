@@ -7,6 +7,7 @@ export interface TypeMember extends Documentable {
   abstract: boolean;
 
   kind: MemberKind;
+  protected?: boolean;
 }
 
 export enum MemberKind {

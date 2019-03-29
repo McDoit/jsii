@@ -3,11 +3,27 @@ import spec = require('jsii-spec');
 
 export interface ComparisonContext {
   /**
-   * Whether to treat API elements as stable if unmarked
+   * Whether to treat API elements as stable if unmarked.
    *
    * @default false
    */
   defaultStable?: boolean;
+
+  /**
+   * Whether to assume the user has written code that will read structs
+   *
+   * Structs are normally analyzed according to their input/output position
+   * in the APIs (whether they appear as argument types or as return types),
+   * and we will assume that no user has written code to read a struct that
+   * otherwise only appears in input position in the API.
+   *
+   * Setting this to 'true' treats all input structs as output structs at the
+   * same type (meaning, for example, they cannot make previously required
+   * arguments optional).
+   *
+   * @default false
+   */
+  assumeStructReaders?: boolean;
 
   /**
    * Where to report errors

@@ -1,8 +1,5 @@
-import { sourceToAssemblyHelper  } from 'jsii';
-import reflect = require('jsii-reflect');
 import { Test } from 'nodeunit';
-import { compareAssemblies } from '../lib';
-import { Mismatches } from '../lib/types';
+import { expectError, expectNoError } from './util';
 
 export = {
   // ----------------------------------------------------------------------
@@ -78,7 +75,7 @@ export = {
 
   async 'not allowed to change argument type to a different scalar'(test: Test) {
     await expectError(test,
-      /arg1, used to be of type/,
+      /method foo argument arg1, takes number \(formerly string\): string is not assignable to number/,
       `
       export class Foo {
         public foo(arg1: string): void {
@@ -100,7 +97,7 @@ export = {
 
   async 'cannot add required fields to an input struct'(test: Test) {
     await expectError(test,
-      /required property 'super' is missing/,
+      /required property 'super' used to be missing/,
       `
       export interface Henk {
         readonly henk: string;
@@ -187,7 +184,7 @@ export = {
 
   async 'cannot change argument type to a supertype it adds required fields'(test: Test) {
     await expectError(test,
-      /required property 'super' is missing/,
+      /required property 'super' used to be missing/,
       `
       export interface Henk {
         readonly henk: string;
@@ -213,37 +210,161 @@ export = {
 
     test.done();
   },
+
+  // ----------------------------------------------------------------------
+
+  async 'cannot add any abstract members to a subclassable class'(test: Test) {
+    await expectError(test,
+      /adds requirement for subclasses to implement 'piet'./,
+      `
+      /**
+       * @subclassable
+       */
+      export abstract class Henk {
+        abstract readonly henk: string;
+      }
+    `, `
+      /**
+       * @subclassable
+       */
+      export abstract class Henk {
+        abstract readonly henk: string;
+        abstract readonly piet: string;
+      }
+    `);
+
+    test.done();
+  },
+
+  // ----------------------------------------------------------------------
+
+  async 'cannot add any members to a subclassable interface, not even optional ones'(test: Test) {
+    await expectError(test,
+      /adds requirement for subclasses to implement 'piet'./,
+      `
+      /**
+       * @subclassable
+       */
+      export interface IHenk {
+        henk: string;
+      }
+    `, `
+      /**
+       * @subclassable
+       */
+      export interface IHenk {
+        henk: string;
+        piet?: string;
+      }
+    `);
+
+    test.done();
+  },
+
+  // ----------------------------------------------------------------------
+
+  async 'cannot make a member less visible'(test: Test) {
+    await expectError(test,
+      /changed from 'public' to 'protected'/,
+      `
+      export class Henk {
+        public henk: string = 'henk';
+      }
+    `, `
+      export class Henk {
+        protected henk: string = 'henk';
+      }
+    `);
+
+    test.done();
+  },
+
+  // ----------------------------------------------------------------------
+
+  async 'cannot make a class property optional'(test: Test) {
+    await expectError(test,
+      /property henk, type string\? \(formerly string\): string\? is optional, string is not/,
+      `
+      export class Henk {
+        public henk: string = 'henk';
+      }
+    `, `
+      export class Henk {
+        public henk?: string = 'henk';
+      }
+    `);
+
+    test.done();
+  },
+
+  // ----------------------------------------------------------------------
+
+  async 'can make an input struct property optional'(test: Test) {
+    await expectNoError(test,
+      `
+      export interface Henk {
+        readonly henk: string;
+      }
+      export class Actions {
+        useHenk(henk: Henk) { Array.isArray(henk); }
+      }
+    `, `
+      export interface Henk {
+        readonly henk?: string;
+      }
+      export class Actions {
+        useHenk(henk: Henk) { Array.isArray(henk); }
+      }
+    `);
+
+    test.done();
+  },
+
+  // ----------------------------------------------------------------------
+
+  async 'cannot make an input struct property required'(test: Test) {
+    await expectError(test,
+      /newly required property 'henk' used to be optional in testpkg.Henk/,
+      `
+      export interface Henk {
+        readonly henk?: string;
+      }
+      export class Actions {
+        useHenk(henk: Henk) { Array.isArray(henk); }
+      }
+    `, `
+      export interface Henk {
+        readonly henk: string;
+      }
+      export class Actions {
+        useHenk(henk: Henk) { Array.isArray(henk); }
+      }
+    `);
+
+    test.done();
+  },
+
+  // ----------------------------------------------------------------------
+
+  async 'cannot make an output struct property optional'(test: Test) {
+    await expectError(test,
+      /formerly required property 'henk' is optional in testpkg.Henk/,
+      `
+      export interface Henk {
+        readonly henk: string;
+      }
+      export class Actions {
+        returnHenk(): Henk { return { henk: 'henk' }; }
+      }
+    `, `
+      export interface Henk {
+        readonly henk?: string;
+      }
+      export class Actions {
+        returnHenk(): Henk { return {}; }
+      }
+    `);
+
+    test.done();
+  },
 };
-
-async function expectNoError(test: Test, original: string, updated: string) {
-    const mms = await compare(original, updated);
-    for (const msg of mms.messages()) {
-      // tslint:disable-next-line:no-console
-      console.error(`- ${msg}`);
-    }
-    test.equal(0, mms.count);
-}
-
-async function expectError(test: Test, error: RegExp, original: string, updated: string) {
-    const mms = await compare(original, updated);
-    test.equal(1, mms.count);
-
-    const msgs = Array.from(mms.messages());
-    test.ok(error.test(msgs[0]), `Expected error like ${error}, got ${msgs[0]}`);
-}
-
-async function compare(original: string, updated: string): Promise<Mismatches> {
-  const ts1 = new reflect.TypeSystem();
-  const originalAssembly = ts1.addAssembly(new reflect.Assembly(ts1, await sourceToAssemblyHelper(original)));
-
-  const ts2 = new reflect.TypeSystem();
-  const updatedAssembly = ts2.addAssembly(new reflect.Assembly(ts2, await sourceToAssemblyHelper(updated)));
-
-  const mismatches = new Mismatches();
-  compareAssemblies(originalAssembly, updatedAssembly, {
-    mismatches,
-    defaultStable: true // Default stable so tests are less noisy (don't need to write @stable everywhere)
-   });
-
-  return mismatches;
-}

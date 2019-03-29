@@ -249,4 +249,20 @@ export = {
     test.deepEqual(classType.docs!.stability, spec.Stability.Experimental);
     test.done();
   },
+
+  // ----------------------------------------------------------------------
+  async 'can add arbitrary tags'(test: Test) {
+    const assembly = await compile(`
+      /**
+       * @boop
+       */
+      export class Foo {
+      }
+    `);
+
+    const classType = assembly.types!['testpkg.Foo'] as spec.ClassType;
+
+    test.deepEqual(classType.docs!.custom, { boop: 'true' });
+    test.done();
+  },
 };
